@@ -105,41 +105,78 @@ private-kitchen-backend/
 前端Vue.js + JavaScript
 
 ```bush
-private-kitchen-frontend/
+src/
+├── main.js                    # 入口文件
+├── App.vue                    # 根组件
+├── style.css                  # 全局样式
 │
-├── index.html                      # 入口HTML文件
+├── api/                       # API接口
+│   ├── index.js               # axios配置
+│   ├── recipe.js              # 菜谱接口
+│   └── user.js                # 用户接口
 │
-├── css/
-│   └── styles.css                  # 全局样式文件
+├── router/                    # 路由配置
+│   └── index.js
 │
-├── js/
-│   ├── app.js                      # 主应用文件
-│   │
-│   ├── components/                 # 组件目录
-│   │   ├── HomeView.js             # 首页组件
-│   │   ├── RecipeListView.js       # 菜谱列表组件
-│   │   ├── RecipeDetailView.js     # 菜谱详情组件
-│   │   ├── RecipeFormView.js       # 菜谱表单组件
-│   │   ├── LoginView.js            # 登录组件
-│   │   ├── RegisterView.js         # 注册组件
-│   │   ├── UserManageView.js       # 用户管理组件
-│   │   ├── ProfileView.js          # 个人中心组件
-│   │   └── HelpView.js             # 帮助组件
-│   │
-│   ├── utils/                      # 工具类
-│   │   ├── api.js                  # API接口封装
-│   │   ├── utils.js                # 通用工具函数
-│   │   └── validator.js            # 表单验证
-│   │
-│   └── config/
-│       └── config.js               # 配置文件
+├── stores/                    # Pinia状态管理
+│   ├── userStore.js           # 用户状态
+│   └── recipeStore.js         # 菜谱状态
 │
-├── assets/                         # 静态资源
-│   ├── images/                     # 图片资源
-│   ├── fonts/                      # 字体文件
-│   └── icons/                      # 图标文件
+├── views/                     # 页面视图
+│   ├── HomeView.vue           # 首页
+│   ├── RecipeListView.vue     # 菜谱列表
+│   ├── RecipeDetailView.vue   # 菜谱详情
+│   ├── RecipeFormView.vue     # 发布/编辑菜谱
+│   ├── LoginView.vue          # 登录
+│   ├── RegisterView.vue       # 注册
+│   ├── UserManageView.vue     # 用户管理
+│   ├── ProfileView.vue        # 个人中心
+│   └── HelpView.vue           # 帮助
 │
-└── README.md                       # 项目说明
+├── components/                # 组件
+│   ├── NavBar.vue             # 导航栏
+│   ├── RecipeCard.vue         # 菜谱卡片
+│   ├── SearchBar.vue          # 搜索栏
+│   ├── Pagination.vue         # 分页组件
+│   ├── LoadingSpinner.vue     # 加载动画
+│   └── MessageToast.vue       # 消息提示
+│
+└── utils/                     # 工具函数
+    ├── validator.js           # 表单验证
+    └── format.js              # 格式化函数
+```
+
+```bush
+private-kitchen/
+│
+├── backend/                    # 后端（Spring Boot）- 保持不变
+│   ├── src/
+│   │   ├── main/java/com/kitchen/
+│   │   │   ├── entity/
+│   │   │   ├── mapper/
+│   │   │   ├── service/
+│   │   │   └── controller/
+│   │   └── resources/
+│   │       └── application.yml
+│   └── pom.xml
+│
+├── frontend/                   # 前端（Vue3 + Vite）- 新的
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── views/
+│   │   ├── stores/
+│   │   ├── router/
+│   │   ├── App.vue
+│   │   ├── main.js
+│   │   └── style.css
+│   ├── index.html
+│   ├── package.json
+│   └── vite.config.js
+│
+└── database/                   # 数据库脚本 - 保持不变
+    ├── schema.sql
+    └── data.sql
 
 ```
 
