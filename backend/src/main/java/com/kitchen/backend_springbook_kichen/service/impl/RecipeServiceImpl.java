@@ -76,10 +76,16 @@ public class RecipeServiceImpl implements RecipeService {
 
         int page = (int) params.get("page");
         int pageSize = (int) params.get("pageSize");
-        params.put("offset", (page - 1) * pageSize);
+        int offset = (page - 1) * pageSize;
 
-        List<Recipe> list = recipeMapper.search(params);
-        Long total = recipeMapper.countSearch(params);
+        // 获取参数
+        String title = (String) params.get("title");
+        Integer categoryId = (Integer) params.get("categoryId");
+        String difficulty = (String) params.get("difficulty");
+
+        // 调用 Mapper 方法
+        List<Recipe> list = recipeMapper.search(title, categoryId, difficulty, offset, pageSize);
+        Long total = recipeMapper.countSearch(title, categoryId, difficulty);
 
         Map<String, Object> result = new HashMap<>();
         result.put("list", list);

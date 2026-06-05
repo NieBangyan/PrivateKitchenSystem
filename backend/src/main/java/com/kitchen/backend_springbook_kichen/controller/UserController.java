@@ -15,7 +15,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin(origins = "*", allowCredentials = "true")
 public class UserController {
 
     @Autowired

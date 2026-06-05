@@ -10,24 +10,59 @@ import java.util.Map;
 @Mapper
 public interface RecipeMapper {
 
+    // ========== 基础查询 ==========
 
+    /**
+     * 根据ID查询菜谱
+     */
     Recipe findById(Integer id);
 
+    /**
+     * 查询菜谱详情（含分类名、作者名）
+     */
     Recipe findDetailById(Integer id);
 
-    List<Recipe> search(Map<String, Object> params);
+    // ========== 搜索方法 ==========
 
-    Long countSearch(Map<String, Object> params);
+    /**
+     * 多条件搜索菜谱
+     */
+    List<Recipe> search(@Param("title") String title,
+                        @Param("categoryId") Integer categoryId,
+                        @Param("difficulty") String difficulty,
+                        @Param("offset") Integer offset,
+                        @Param("pageSize") Integer pageSize);
 
+    /**
+     * 统计搜索结果数量
+     */
+    Long countSearch(@Param("title") String title,
+                     @Param("categoryId") Integer categoryId,
+                     @Param("difficulty") String difficulty);
 
+    // ========== 增删改 ==========
+
+    /**
+     * 新增菜谱
+     */
     int insert(Recipe recipe);
 
+    /**
+     * 更新菜谱
+     */
     int update(Recipe recipe);
 
+    /**
+     * 删除菜谱
+     */
     int deleteById(Integer id);
 
+    /**
+     * 增加浏览量
+     */
     void incrementViewCount(Integer id);
 
+    // ========== 浏览导航 ==========
 
     /**
      * 获取第一个菜谱
@@ -49,7 +84,7 @@ public interface RecipeMapper {
      */
     Recipe findNext(@Param("currentId") Integer currentId);
 
-    // ========== 统计方法（新增） ==========
+    // ========== 统计方法 ==========
 
     /**
      * 获取菜谱总数
@@ -77,7 +112,7 @@ public interface RecipeMapper {
     List<Map<String, Object>> getStatsByDifficulty();
 
     /**
-     * 获取分类下的菜谱统计
+     * 获取分类下的菜谱数量（返回Long）
      */
-    Map<String, Object> getRecipeCountByCategory(@Param("categoryId") Integer categoryId);
+    Long getRecipeCountByCategory(@Param("categoryId") Integer categoryId);
 }

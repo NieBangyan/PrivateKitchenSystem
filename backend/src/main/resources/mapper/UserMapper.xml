@@ -78,6 +78,7 @@
     <update id="updateStatus">
         UPDATE user SET status = #{status} WHERE id = #{id}
     </update>
+    <update id="login"></update>
 
     <!-- 获取用户总数 -->
     <select id="count" resultType="long">

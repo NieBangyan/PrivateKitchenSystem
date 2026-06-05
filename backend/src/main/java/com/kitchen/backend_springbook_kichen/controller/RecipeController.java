@@ -14,7 +14,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/recipe")
-@CrossOrigin(origins = "*", allowCredentials = "true")
 public class RecipeController {
 
     @Autowired
