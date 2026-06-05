@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kitchen.backend_springbook_kichen.mapper.RecipeMapper">
+
+    <!-- 基础结果映射 -->
+    <resultMap id="BaseResultMap" type="com.kitchen.backend_springbook_kichen.entity.Recipe">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="category_id" property="categoryId" />
+        <result column="ingredients" property="ingredients" />
+        <result column="steps" property="steps" />
+        <result column="cooking_time" property="cookingTime" />
+        <result column="difficulty" property="difficulty" />
+        <result column="image_url" property="imageUrl" />
+        <result column="author_id" property="authorId" />
+        <result column="view_count" property="viewCount" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 详情结果映射（含关联表字段） -->
+    <resultMap id="DetailResultMap" type="com.kitchen.backend_springbook_kichen.entity.Recipe" extends="BaseResultMap">
+        <result column="category_name" property="categoryName" />
+        <result column="author_name" property="authorName" />
+    </resultMap>
+
+    <!-- 根据ID查询菜谱 -->
+    <select id="findById" parameterType="int" resultMap="BaseResultMap">
+        SELECT * FROM recipe WHERE id = #{id}
+    </select>
+
+    <!-- 查询菜谱详情（含分类名、作者名） -->
+    <select id="findDetailById" parameterType="int" resultMap="DetailResultMap">
+        SELECT r.*,
+               c.name as category_name,
+               u.real_name as author_name
+        FROM recipe r
+                 LEFT JOIN category c ON r.category_id = c.id
+                 LEFT JOIN user u ON r.author_id = u.id
+        WHERE r.id = #{id}
+    </select>
+
+    <!-- 多条件组合搜索（支持模糊查询、分页） -->
+    <select id="search" parameterType="map" resultMap="DetailResultMap">
+        SELECT r.*, c.name as category_name, u.real_name as author_name
+        FROM recipe r
+        LEFT JOIN category c ON r.category_id = c.id
+        LEFT JOIN user u ON r.author_id = u.id
+        WHERE 1=1
+        <if test="title != null and title != ''">
+            AND r.title LIKE CONCAT('%', #{title}, '%')
+        </if>
+        <if test="categoryId != null">
+            AND r.category_id = #{categoryId}
+        </if>
+        <if test="difficulty != null and difficulty != ''">
+            AND r.difficulty = #{difficulty}
+        </if>
+        ORDER BY r.create_time DESC
+        <if test="offset != null and pageSize != null">
+            LIMIT #{offset}, #{pageSize}
+        </if>
+    </select>
+
+    <!-- 统计搜索结果数量 -->
+    <select id="countSearch" parameterType="map" resultType="long">
+        SELECT COUNT(*)
+        FROM recipe r
+        WHERE 1=1
+        <if test="title != null and title != ''">
+            AND r.title LIKE CONCAT('%', #{title}, '%')
+        </if>
+        <if test="categoryId != null">
+            AND r.category_id = #{categoryId}
+        </if>
+        <if test="difficulty != null and difficulty != ''">
+            AND r.difficulty = #{difficulty}
+        </if>
+    </select>
+
+    <!-- 插入菜谱 -->
+    <insert id="insert" parameterType="com.kitchen.backend_springbook_kichen.entity.Recipe"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO recipe(title, category_id, ingredients, steps,
+                           cooking_time, difficulty, image_url, author_id, view_count)
+        VALUES(#{title}, #{categoryId}, #{ingredients}, #{steps},
+               #{cookingTime}, #{difficulty}, #{imageUrl}, #{authorId}, 0)
+    </insert>
+
+    <!-- 更新菜谱 -->
+    <update id="update" parameterType="com.kitchen.backend_springbook_kichen.entity.Recipe">
+        UPDATE recipe
+        SET title = #{title},
+            category_id = #{categoryId},
+            ingredients = #{ingredients},
+            steps = #{steps},
+            cooking_time = #{cookingTime},
+            difficulty = #{difficulty},
+            image_url = #{imageUrl}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除菜谱 -->
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM recipe WHERE id = #{id}
+    </delete>
+
+    <!-- 增加浏览量 -->
+    <update id="incrementViewCount" parameterType="int">
+        UPDATE recipe SET view_count = view_count + 1 WHERE id = #{id}
+    </update>
+
+    <!-- 获取第一个菜谱 -->
+    <select id="findFirst" resultMap="DetailResultMap">
+        SELECT r.*, c.name as category_name, u.real_name as author_name
+        FROM recipe r
+                 LEFT JOIN category c ON r.category_id = c.id
+                 LEFT JOIN user u ON r.author_id = u.id
+        ORDER BY r.id ASC LIMIT 1
+    </select>
+
+    <!-- 获取最后一个菜谱 -->
+    <select id="findLast" resultMap="DetailResultMap">
+        SELECT r.*, c.name as category_name, u.real_name as author_name
+        FROM recipe r
+                 LEFT JOIN category c ON r.category_id = c.id
+                 LEFT JOIN user u ON r.author_id = u.id
+        ORDER BY r.id DESC LIMIT 1
+    </select>
+
+    <!-- 获取上一个菜谱 -->
+    <select id="findPrev" parameterType="int" resultMap="DetailResultMap">
+        SELECT r.*, c.name as category_name, u.real_name as author_name
+        FROM recipe r
+                 LEFT JOIN category c ON r.category_id = c.id
+                 LEFT JOIN user u ON r.author_id = u.id
+        WHERE r.id &lt; #{currentId}
+        ORDER BY r.id DESC LIMIT 1
+    </select>
+
+    <!-- 获取下一个菜谱 -->
+    <select id="findNext" parameterType="int" resultMap="DetailResultMap">
+        SELECT r.*, c.name as category_name, u.real_name as author_name
+        FROM recipe r
+                 LEFT JOIN category c ON r.category_id = c.id
+                 LEFT JOIN user u ON r.author_id = u.id
+        WHERE r.id &gt; #{currentId}
+        ORDER BY r.id ASC LIMIT 1
+    </select>
+
+    <!-- 获取菜谱总数 -->
+    <select id="count" resultType="long">
+        SELECT COUNT(*) FROM recipe
+    </select>
+
+    <!-- 获取分类下的菜谱数量 -->
+
+    <select id="countByCategory" parameterType="int" resultType="long">
+        SELECT COUNT(*) FROM recipe WHERE category_id = #{categoryId}
+    </select>
+
+    <!-- 获取热门菜谱（按浏览量） -->
+    <select id="findHotRecipes" parameterType="int" resultMap="DetailResultMap">
+        SELECT r.*, c.name as category_name, u.real_name as author_name
+        FROM recipe r
+                 LEFT JOIN category c ON r.category_id = c.id
+                 LEFT JOIN user u ON r.author_id = u.id
+        ORDER BY r.view_count DESC
+            LIMIT #{limit}
+    </select>
+
+    <!-- 获取最新菜谱 -->
+    <select id="findLatestRecipes" parameterType="int" resultMap="DetailResultMap">
+        SELECT r.*, c.name as category_name, u.real_name as author_name
+        FROM recipe r
+                 LEFT JOIN category c ON r.category_id = c.id
+                 LEFT JOIN user u ON r.author_id = u.id
+        ORDER BY r.create_time DESC
+            LIMIT #{limit}
+    </select>
+
+    <!-- 按难度统计菜谱数量 -->
+    <select id="getStatsByDifficulty" resultType="java.util.HashMap">
+        SELECT
+            difficulty,
+            COUNT(*) as count
+        FROM recipe
+        GROUP BY difficulty
+    </select>
+
+    <!-- 获取分类下的菜谱统计 -->
+    <select id="getRecipeCountByCategory" parameterType="int" resultType="java.util.HashMap">
+        SELECT COUNT(*) as count FROM recipe WHERE category_id = #{categoryId}
+    </select>
+
+    <!-- ========== 浏览导航 ========== -->
+
+    <!-- 获取第一个菜谱 -->
+    <select id="findFirst" resultMap="DetailResultMap">
+        SELECT r.*, c.name as category_name, u.real_name as author_name
+        FROM recipe r
+                 LEFT JOIN category c ON r.category_id = c.id
+                 LEFT JOIN user u ON r.author_id = u.id
+        ORDER BY r.id ASC LIMIT 1
+    </select>
+
+    <!-- 获取最后一个菜谱 -->
+    <select id="findLast" resultMap="DetailResultMap">
+        SELECT r.*, c.name as category_name, u.real_name as author_name
+        FROM recipe r
+                 LEFT JOIN category c ON r.category_id = c.id
+                 LEFT JOIN user u ON r.author_id = u.id
+        ORDER BY r.id DESC LIMIT 1
+    </select>
+
+    <!-- 获取上一个菜谱 -->
+    <select id="findPrev" parameterType="int" resultMap="DetailResultMap">
+        SELECT r.*, c.name as category_name, u.real_name as author_name
+        FROM recipe r
+                 LEFT JOIN category c ON r.category_id = c.id
+                 LEFT JOIN user u ON r.author_id = u.id
+        WHERE r.id &lt; #{currentId}
+        ORDER BY r.id DESC LIMIT 1
+    </select>
+
+    <!-- 获取下一个菜谱 -->
+    <select id="findNext" parameterType="int" resultMap="DetailResultMap">
+        SELECT r.*, c.name as category_name, u.real_name as author_name
+        FROM recipe r
+                 LEFT JOIN category c ON r.category_id = c.id
+                 LEFT JOIN user u ON r.author_id = u.id
+        WHERE r.id &gt; #{currentId}
+        ORDER BY r.id ASC LIMIT 1
+    </select>
+
+    <!-- ========== 统计方法 ========== -->
+
+    <!-- 获取菜谱总数 -->
+    <select id="count" resultType="long">
+        SELECT COUNT(*) FROM recipe
+    </select>
+
+    <!-- 获取分类下的菜谱数量 -->
+    <select id="countByCategory" parameterType="int" resultType="long">
+        SELECT COUNT(*) FROM recipe WHERE category_id = #{categoryId}
+    </select>
+
+    <!-- 获取热门菜谱 -->
+    <select id="findHotRecipes" parameterType="int" resultMap="DetailResultMap">
+        SELECT r.*, c.name as category_name, u.real_name as author_name
+        FROM recipe r
+                 LEFT JOIN category c ON r.category_id = c.id
+                 LEFT JOIN user u ON r.author_id = u.id
+        ORDER BY r.view_count DESC
+            LIMIT #{limit}
+    </select>
+
+    <!-- 获取最新菜谱 -->
+    <select id="findLatestRecipes" parameterType="int" resultMap="DetailResultMap">
+        SELECT r.*, c.name as category_name, u.real_name as author_name
+        FROM recipe r
+                 LEFT JOIN category c ON r.category_id = c.id
+                 LEFT JOIN user u ON r.author_id = u.id
+        ORDER BY r.create_time DESC
+            LIMIT #{limit}
+    </select>
+
+    <!-- 按难度统计 -->
+    <select id="getStatsByDifficulty" resultType="java.util.HashMap">
+        SELECT
+            difficulty,
+            COUNT(*) as count
+        FROM recipe
+        GROUP BY difficulty
+    </select>
+
+    <!-- 获取分类下的菜谱统计 -->
+    <select id="getRecipeCountByCategory" parameterType="int" resultType="java.util.HashMap">
+        SELECT COUNT(*) as count FROM recipe WHERE category_id = #{categoryId}
+    </select>
+
+</mapper>

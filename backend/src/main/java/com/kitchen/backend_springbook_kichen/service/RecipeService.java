@@ -1,112 +1,118 @@
 package com.kitchen.backend_springbook_kichen.service;
 
 import com.kitchen.backend_springbook_kichen.entity.Recipe;
-import com.kitchen.backend_springbook_kichen.mapper.RecipeMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
-@Service
-public class RecipeService {
+/**
+ * 菜谱服务接口
+ */
+public interface RecipeService {
 
-    @Autowired
-    private RecipeMapper recipeMapper;
+    /**
+     * 多条件搜索菜谱（支持模糊查询、分页）
+     * @param params 搜索参数（title, categoryId, difficulty, page, pageSize）
+     * @return 分页结果
+     */
+    Map<String, Object> searchRecipes(Map<String, Object> params);
 
-    // 数据合法性检查
-    private boolean validateRecipe(Recipe recipe) {
-        if (recipe.getTitle() == null || recipe.getTitle().trim().isEmpty()) {
-            throw new RuntimeException("菜谱标题不能为空");
-        }
-        if (recipe.getTitle().length() > 100) {
-            throw new RuntimeException("菜谱标题长度不能超过100个字符");
-        }
-        if (recipe.getIngredients() == null || recipe.getIngredients().trim().isEmpty()) {
-            throw new RuntimeException("食材清单不能为空");
-        }
-        if (recipe.getSteps() == null || recipe.getSteps().trim().isEmpty()) {
-            throw new RuntimeException("制作步骤不能为空");
-        }
-        if (recipe.getCookingTime() != null && recipe.getCookingTime() <= 0) {
-            throw new RuntimeException("烹饪时间必须大于0");
-        }
-        if (recipe.getCookingTime() != null && recipe.getCookingTime() > 600) {
-            throw new RuntimeException("烹饪时间不能超过600分钟");
-        }
-        return true;
-    }
+    /**
+     * 根据ID获取菜谱详情
+     * @param id 菜谱ID
+     * @return 菜谱信息
+     */
+    Recipe getRecipeById(Integer id);
 
-    // 查询 - 支持单条件、多条件组合、模糊查询
-    public Map<String, Object> searchRecipes(String title, Integer categoryId, String difficulty,
-                                             Integer page, Integer pageSize) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("title", title);
-        params.put("categoryId", categoryId);
-        params.put("difficulty", difficulty);
-        params.put("offset", (page - 1) * pageSize);
-        params.put("pageSize", pageSize);
+    /**
+     * 获取菜谱详情（含分类名、作者名）
+     * @param id 菜谱ID
+     * @return 菜谱详情
+     */
+    Recipe getRecipeDetail(Integer id);
 
-        List<Recipe> list = recipeMapper.search(params);
-        Long total = recipeMapper.countSearch(params);
+    /**
+     * 获取第一个菜谱
+     * @return 菜谱信息
+     */
+    Recipe getFirstRecipe();
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("list", list);
-        result.put("total", total);
-        result.put("page", page);
-        result.put("pageSize", pageSize);
-        return result;
-    }
+    /**
+     * 获取最后一个菜谱
+     * @return 菜谱信息
+     */
+    Recipe getLastRecipe();
 
-    // 插入 - 带合法性检查
-    @Transactional
-    public Recipe addRecipe(Recipe recipe) {
-        validateRecipe(recipe);
-        int result = recipeMapper.insert(recipe);
-        if (result > 0) {
-            return recipe;
-        }
-        throw new RuntimeException("添加菜谱失败");
-    }
+    /**
+     * 获取上一个菜谱
+     * @param currentId 当前ID
+     * @return 上一个菜谱
+     */
+    Recipe getPrevRecipe(Integer currentId);
 
-    // 修改 - 带合法性检查和参照完整性
-    @Transactional
-    public Recipe updateRecipe(Recipe recipe) {
-        Recipe existing = recipeMapper.findById(recipe.getId());
-        if (existing == null) {
-            throw new RuntimeException("菜谱不存在");
-        }
-        validateRecipe(recipe);
-        int result = recipeMapper.update(recipe);
-        if (result > 0) {
-            return recipeMapper.findDetailById(recipe.getId());
-        }
-        throw new RuntimeException("更新菜谱失败");
-    }
+    /**
+     * 获取下一个菜谱
+     * @param currentId 当前ID
+     * @return 下一个菜谱
+     */
+    Recipe getNextRecipe(Integer currentId);
 
-    // 删除 - 带参照完整性检查（级联删除由数据库外键处理）
-    @Transactional
-    public boolean deleteRecipe(Integer id) {
-        Recipe recipe = recipeMapper.findById(id);
-        if (recipe == null) {
-            throw new RuntimeException("菜谱不存在");
-        }
-        int result = recipeMapper.deleteById(id);
-        return result > 0;
-    }
+    /**
+     * 添加菜谱
+     * @param recipe 菜谱信息
+     * @return 添加后的菜谱
+     */
+    Recipe addRecipe(Recipe recipe);
 
-    // 获取菜谱详情
-    public Recipe getRecipeDetail(Integer id) {
-        return recipeMapper.findDetailById(id);
-    }
+    /**
+     * 更新菜谱
+     * @param recipe 菜谱信息
+     * @return 更新后的菜谱
+     */
+    Recipe updateRecipe(Recipe recipe);
 
-    // 存储过程示例 - 统计分类下的菜谱数量
-    // 实际存储过程需要在数据库中创建
-    public List<Map<String, Object>> getCategoryStats() {
-        // 使用聚合函数查询
-        return recipeMapper.getCategoryStats();
-    }
+    /**
+     * 删除菜谱
+     * @param id 菜谱ID
+     * @return 是否成功
+     */
+    boolean deleteRecipe(Integer id);
+
+    /**
+     * 增加浏览量
+     * @param id 菜谱ID
+     */
+    void incrementViewCount(Integer id);
+
+    /**
+     * 获取菜谱总数
+     * @return 总数
+     */
+    long getRecipeCount();
+
+    /**
+     * 获取分类下的菜谱数量
+     * @param categoryId 分类ID
+     * @return 数量
+     */
+    long getCountByCategory(Integer categoryId);
+
+    /**
+     * 获取热门菜谱（按浏览量）
+     * @param limit 数量限制
+     * @return 菜谱列表
+     */
+    List<Recipe> getHotRecipes(int limit);
+
+    /**
+     * 获取最新菜谱
+     * @param limit 数量限制
+     * @return 菜谱列表
+     */
+    List<Recipe> getLatestRecipes(int limit);
+
+    /**
+     * 获取菜谱统计（按难度分组）
+     * @return 统计数据
+     */
+    List<Map<String, Object>> getStatsByDifficulty();
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kitchen.backend_springbook_kichen.mapper.CategoryMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.kitchen.backend_springbook_kichen.entity.Category">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="description" property="description" />
+        <result column="sort_order" property="sortOrder" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 查询所有分类 -->
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT * FROM category ORDER BY sort_order ASC, id ASC
+    </select>
+
+    <!-- 根据ID查询分类 -->
+    <select id="findById" parameterType="int" resultMap="BaseResultMap">
+        SELECT * FROM category WHERE id = #{id}
+    </select>
+
+    <!-- 根据名称查询分类 -->
+    <select id="findByName" parameterType="string" resultMap="BaseResultMap">
+        SELECT * FROM category WHERE name = #{name}
+    </select>
+
+    <!-- 模糊搜索分类 -->
+    <select id="search" parameterType="string" resultMap="BaseResultMap">
+        SELECT * FROM category
+        WHERE name LIKE CONCAT('%', #{keyword}, '%')
+           OR description LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <!-- 插入分类 -->
+    <insert id="insert" parameterType="com.kitchen.backend_springbook_kichen.entity.Category"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO category(name, description, sort_order, create_time)
+        VALUES(#{name}, #{description}, #{sortOrder}, NOW())
+    </insert>
+
+    <!-- 更新分类 -->
+    <update id="update" parameterType="com.kitchen.backend_springbook_kichen.entity.Category">
+        UPDATE category
+        SET name = #{name},
+            description = #{description},
+            sort_order = #{sortOrder}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除分类 -->
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM category WHERE id = #{id}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="batchDelete" parameterType="list">
+        DELETE FROM category WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 获取分类统计（含菜谱数量） -->
+    <select id="getCategoryStats" resultType="java.util.HashMap">
+        SELECT
+            c.id,
+            c.name,
+            COUNT(r.id) as recipe_count
+        FROM category c
+                 LEFT JOIN recipe r ON c.id = r.category_id
+        GROUP BY c.id, c.name
+        ORDER BY recipe_count DESC
+    </select>
+
+    <!-- 获取分类总数 -->
+    <select id="count" resultType="long">
+        SELECT COUNT(*) FROM category
+    </select>
+
+</mapper>

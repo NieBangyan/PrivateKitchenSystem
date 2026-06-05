@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mysql://prod-server:3306/private_kitchen?useSSL=true&serverTimezone=Asia/Shanghai
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+logging:
+  level:
+    com.kitchen: warn
+
+server:
+  port: 8080
