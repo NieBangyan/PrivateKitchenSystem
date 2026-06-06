@@ -74,6 +74,12 @@ const loadRecipes = async () => {
     page: pagination.page,
     pageSize: pagination.pageSize
   })
+  // 添加调试
+  console.log('store中的recipes:', recipeStore.recipes)
+  if (recipeStore.recipes.length > 0) {
+    console.log('第一个recipe:', recipeStore.recipes[0])
+    console.log('imageUrl:', recipeStore.recipes[0].imageUrl)
+  }
 }
 
 const changePage = async (page) => {
