@@ -1,5 +1,5 @@
 <template>
-  <div class="recipe-card card" @click="$emit('click', recipe)">
+  <div class="recipe-card card" @click="$emit('click', recipe.id)">
     <div class="recipe-image">
       <div class="image-placeholder">🍳</div>
     </div>
