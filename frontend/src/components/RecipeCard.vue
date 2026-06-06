@@ -1,7 +1,11 @@
 <template>
   <div class="recipe-card card" @click="$emit('click', recipe.id)">
     <div class="recipe-image">
-      <div class="image-placeholder">🍳</div>
+      <img 
+        :src="recipe.imageUrl" 
+        :alt="recipe.title"
+        class="recipe-img"
+      />
     </div>
     <div class="recipe-info">
       <h3>{{ recipe.title }}</h3>
@@ -58,14 +62,13 @@ const difficultyClass = computed(() => difficultyClassMap[props.recipe.difficult
 
 .recipe-image {
   height: 180px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
 }
 
-.image-placeholder {
-  font-size: 56px;
+.recipe-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .recipe-info {

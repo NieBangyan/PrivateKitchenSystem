@@ -56,6 +56,11 @@ const pagination = reactive({
 })
 
 const handleSearch = async () => {
+  console.log('=== 搜索参数 ===', {
+    title: searchForm.title,
+    categoryId: searchForm.categoryId,
+    difficulty: searchForm.difficulty
+  })
   pagination.page = 1
   await loadRecipes()
 }
@@ -74,12 +79,32 @@ const loadRecipes = async () => {
     page: pagination.page,
     pageSize: pagination.pageSize
   })
-  // 添加调试
-  console.log('store中的recipes:', recipeStore.recipes)
-  if (recipeStore.recipes.length > 0) {
-    console.log('第一个recipe:', recipeStore.recipes[0])
-    console.log('imageUrl:', recipeStore.recipes[0].imageUrl)
+  
+  // 前端手动过滤
+  let filteredRecipes = [...recipeStore.recipes]
+  
+  if (searchForm.title) {
+    filteredRecipes = filteredRecipes.filter(r => 
+      r.title.includes(searchForm.title)
+    )
   }
+  
+  if (searchForm.categoryId) {
+    filteredRecipes = filteredRecipes.filter(r => 
+      r.categoryId === searchForm.categoryId
+    )
+  }
+  
+  if (searchForm.difficulty) {
+    filteredRecipes = filteredRecipes.filter(r => 
+      r.difficulty === searchForm.difficulty
+    )
+  }
+  
+  recipeStore.recipes = filteredRecipes
+  recipeStore.total = filteredRecipes.length
+  
+  console.log('过滤后数量:', filteredRecipes.length)
 }
 
 const changePage = async (page) => {
