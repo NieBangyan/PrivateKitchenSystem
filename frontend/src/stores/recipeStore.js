@@ -10,22 +10,27 @@ export const useRecipeStore = defineStore('recipe', () => {
   const isLoading = ref(false)
   
   // 搜索菜谱
-  async function search(params) {
-    isLoading.value = true
-    try {
-      const res = await recipeApi.search(params)
-      if (res.code === 200) {
-        recipes.value = res.data.list
-        total.value = res.data.total
-        return { success: true, data: res.data }
+async function search(params) {
+  isLoading.value = true
+  try {
+    const res = await recipeApi.search(params)
+    if (res.code === 200) {
+      recipes.value = res.data.list
+      total.value = res.data.total
+      // 添加调试：打印第一条数据的 imageUrl
+      if (res.data.list && res.data.list.length > 0) {
+        console.log('第一条菜谱数据:', res.data.list[0])
+        console.log('imageUrl值:', res.data.list[0].imageUrl)
       }
-      return { success: false, message: res.message }
-    } catch (error) {
-      return { success: false, message: error.message }
-    } finally {
-      isLoading.value = false
+      return { success: true, data: res.data }
     }
+    return { success: false, message: res.message }
+  } catch (error) {
+    return { success: false, message: error.message }
+  } finally {
+    isLoading.value = false
   }
+}
   
   // 获取详情
   async function getDetail(id) {

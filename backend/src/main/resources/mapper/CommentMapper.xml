@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kitchen.backend_springbook_kichen.mapper.CommentMapper">
+
+    <resultMap id="BaseResultMap" type="com.kitchen.backend_springbook_kichen.entity.Comment">
+        <id column="id" property="id" />
+        <result column="recipe_id" property="recipeId" />
+        <result column="user_id" property="userId" />
+        <result column="content" property="content" />
+        <result column="like_count" property="likeCount" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="user_name" property="userName" />
+    </resultMap>
+
+    <select id="findByRecipeId" resultMap="BaseResultMap">
+        SELECT c.*, u.username as user_name
+        FROM comment c
+                 LEFT JOIN user u ON c.user_id = u.id
+        WHERE c.recipe_id = #{recipeId}
+        ORDER BY c.create_time DESC
+            LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="countByRecipeId" resultType="long">
+        SELECT COUNT(*) FROM comment WHERE recipe_id = #{recipeId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO comment(recipe_id, user_id, content, like_count)
+        VALUES(#{recipeId}, #{userId}, #{content}, 0)
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM comment WHERE id = #{id}
+    </delete>
+
+    <update id="likeComment">
+        UPDATE comment SET like_count = like_count + 1 WHERE id = #{id}
+    </update>
+
+</mapper>

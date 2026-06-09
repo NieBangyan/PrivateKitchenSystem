@@ -114,7 +114,13 @@ onMounted(() => {
 }
 
 .hero-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+ background: url('/images/background1.png');
+  color: rgb(18, 18, 18);
+  padding: 60px 40px;
+  border-radius: 24px;
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
   color: white;
   padding: 60px 40px;
   border-radius: 24px;
@@ -152,7 +158,7 @@ onMounted(() => {
 }
 
 .stat-card {
-  background: white;
+  background: rgb(255, 255, 255);
   padding: 30px;
   border-radius: 20px;
   text-align: center;
@@ -162,7 +168,7 @@ onMounted(() => {
 .stat-number {
   font-size: 36px;
   font-weight: bold;
-  color: #667eea;
+  color: #516ca2;
   margin-bottom: 8px;
 }
 
@@ -189,7 +195,7 @@ onMounted(() => {
 }
 
 .feature-card {
-  background: white;
+  background: rgb(233, 139, 139);
   padding: 30px;
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);

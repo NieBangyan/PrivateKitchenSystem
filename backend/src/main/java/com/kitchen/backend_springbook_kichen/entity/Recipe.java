@@ -17,7 +17,18 @@ public class Recipe {
     private Date updateTime;
     private String categoryName;
     private String authorName;
+    // 在类中添加字段
+    private Integer likeCount;
 
+    // 添加 Getter
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    // 添加 Setter
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
+    }
     // Getters and Setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }

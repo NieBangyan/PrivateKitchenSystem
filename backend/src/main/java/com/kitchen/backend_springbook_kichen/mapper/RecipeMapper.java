@@ -111,6 +111,8 @@ public interface RecipeMapper {
      */
     List<Map<String, Object>> getStatsByDifficulty();
 
+    // 在 RecipeMapper.java 中添加
+    int likeRecipe(@Param("id") Integer id);
     /**
      * 获取分类下的菜谱数量（返回Long）
      */

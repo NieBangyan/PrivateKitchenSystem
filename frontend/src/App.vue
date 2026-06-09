@@ -33,7 +33,7 @@ const isLoading = computed(() => userStore.isLoading)
 
 body {
   font-family: 'Microsoft YaHei', 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: url('/images/background3.png');
   min-height: 100vh;
 }
 

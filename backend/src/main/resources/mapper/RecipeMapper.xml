@@ -15,6 +15,7 @@
         <result column="image_url" property="imageUrl" />
         <result column="author_id" property="authorId" />
         <result column="view_count" property="viewCount" />
+        <result column="like_count" property="likeCount" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
@@ -23,6 +24,8 @@
         <result column="category_name" property="categoryName" />
         <result column="author_name" property="authorName" />
     </resultMap>
+
+    <!-- ========== 基础查询 ========== -->
 
     <select id="findById" resultMap="BaseResultMap">
         SELECT * FROM recipe WHERE id = #{id}
@@ -35,6 +38,8 @@
                  LEFT JOIN user u ON r.author_id = u.id
         WHERE r.id = #{id}
     </select>
+
+    <!-- ========== 搜索 ========== -->
 
     <select id="search" resultMap="DetailResultMap">
         SELECT r.*, c.name as category_name, u.real_name as author_name
@@ -71,6 +76,8 @@
         </if>
     </select>
 
+    <!-- ========== 增删改 ========== -->
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO recipe(title, category_id, ingredients, steps, cooking_time, difficulty, image_url, author_id)
         VALUES(#{title}, #{categoryId}, #{ingredients}, #{steps}, #{cookingTime}, #{difficulty}, #{imageUrl}, #{authorId})
@@ -96,6 +103,13 @@
         UPDATE recipe SET view_count = view_count + 1 WHERE id = #{id}
     </update>
 
+    <!-- 点赞菜谱 -->
+    <update id="likeRecipe">
+        UPDATE recipe SET like_count = like_count + 1 WHERE id = #{id}
+    </update>
+
+    <!-- ========== 浏览导航 ========== -->
+
     <select id="findFirst" resultMap="DetailResultMap">
         SELECT r.*, c.name as category_name, u.real_name as author_name
         FROM recipe r
@@ -103,6 +117,7 @@
                  LEFT JOIN user u ON r.author_id = u.id
         ORDER BY r.id ASC LIMIT 1
     </select>
+
     <select id="findLast" resultMap="DetailResultMap">
         SELECT r.*, c.name as category_name, u.real_name as author_name
         FROM recipe r
@@ -128,6 +143,8 @@
         WHERE r.id &gt; #{currentId}
         ORDER BY r.id ASC LIMIT 1
     </select>
+
+    <!-- ========== 统计方法 ========== -->
 
     <select id="count" resultType="long">
         SELECT COUNT(*) FROM recipe
@@ -156,6 +173,7 @@
     <select id="getStatsByDifficulty" resultType="java.util.HashMap">
         SELECT difficulty, COUNT(*) as count FROM recipe GROUP BY difficulty
     </select>
+
     <select id="getRecipeCountByCategory" resultType="java.lang.Long">
         SELECT COUNT(*) FROM recipe WHERE category_id = #{categoryId}
     </select>

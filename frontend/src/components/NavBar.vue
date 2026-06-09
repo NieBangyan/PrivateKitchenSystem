@@ -2,7 +2,7 @@
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-brand" @click="router.push('/')">
-        🍳 私房菜学习与分享系统
+        🍳 私房菜学习与分享   PRIVATE KITCHEN
       </div>
       
       <div class="nav-menu">
@@ -60,7 +60,7 @@ const handleLogout = async () => {
 
 <style scoped>
 .navbar {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ecdf99 0%, #feb93b 100%);
   color: white;
   position: fixed;
   top: 0;
@@ -133,11 +133,11 @@ const handleLogout = async () => {
 
 .btn-login:hover {
   background: white;
-  color: #667eea;
+  color: #d8b14c;
 }
 
 .btn-register {
-  background: #ff9800;
+  background: #ee5f22;
   color: white;
 }
 
@@ -176,7 +176,7 @@ const handleLogout = async () => {
 .mobile-menu {
   display: none;
   flex-direction: column;
-  background: rgba(102, 126, 234, 0.95);
+  background: rgba(242, 206, 29, 0.95);
   padding: 15px;
 }
 
