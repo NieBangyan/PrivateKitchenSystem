@@ -102,7 +102,7 @@ const submit = async () => {
 }
 
 .auth-link a {
-  color: #667eea;
+  color: #efefef;
   text-decoration: none;
 }
 

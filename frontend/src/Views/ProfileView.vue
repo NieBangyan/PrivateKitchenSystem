@@ -117,7 +117,7 @@ const changePassword = async () => {
   margin-bottom: 20px;
   color: #333;
   padding-bottom: 10px;
-  border-bottom: 2px solid #667eea;
+  border-bottom: 2px solid #e5882c;
 }
 
 .profile-info p {

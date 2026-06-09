@@ -52,7 +52,7 @@ const searchForm = reactive({
 
 const pagination = reactive({
   page: 1,
-  pageSize: 10
+  pageSize: 1000
 })
 
 const handleSearch = async () => {
@@ -143,7 +143,7 @@ onMounted(async () => {
   width: 40px;
   height: 40px;
   border: 3px solid #f3f3f3;
-  border-top-color: #667eea;
+  border-top-color: #ef961a;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

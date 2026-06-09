@@ -47,7 +47,7 @@
   margin-bottom: 25px;
   color: #333;
   padding-bottom: 10px;
-  border-bottom: 2px solid #667eea;
+  border-bottom: 2px solid #eeac31;
 }
 
 .help-section {
@@ -55,7 +55,7 @@
 }
 
 .help-section h3 {
-  color: #667eea;
+  color: #f0a356;
   margin-bottom: 15px;
   font-size: 18px;
 }

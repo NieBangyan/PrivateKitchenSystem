@@ -184,7 +184,7 @@ const submit = async () => {
 }
 
 .auth-link a {
-  color: #667eea;
+  color: #e28d2d;
   text-decoration: none;
 }
 

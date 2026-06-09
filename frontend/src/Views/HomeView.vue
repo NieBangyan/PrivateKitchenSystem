@@ -2,7 +2,8 @@
   <div class="home-container">
     <div class="hero-section">
       <h1>发现美味，分享快乐</h1>
-      <p>每一个热爱生活的人，都值得拥有一道拿手好菜</p>
+      <p>每一个热爱生活的人，都值得拥有一道拿手好菜 <p>Every person who loves life deserves to have a signature dish</p></p>
+     
       <div class="hero-buttons">
         <router-link to="/recipes" class="btn-primary">浏览菜谱</router-link>
         <router-link v-if="userStore.isLoggedIn" to="/recipe/add" class="btn-secondary">
@@ -30,22 +31,22 @@
       <h2>系统特色</h2>
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">📚</div>
+          <div class="feature-icon">📋</div>
           <h3>海量菜谱</h3>
           <p>收录全国各地特色菜谱，满足您的烹饪需求</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🔍</div>
+          <div class="feature-icon">🔎</div>
           <h3>智能搜索</h3>
           <p>支持多条件组合查询，快速找到心仪菜谱</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">✏️</div>
+          <div class="feature-icon">📝</div>
           <h3>分享交流</h3>
           <p>发布您的独家菜谱，与美食爱好者交流心得</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">📊</div>
+          <div class="feature-icon">📉</div>
           <h3>数据报表</h3>
           <p>支持数据导出为Excel、PDF等格式</p>
         </div>
@@ -114,14 +115,13 @@ onMounted(() => {
 }
 
 .hero-section {
- background: url('/images/background1.png');
+ background: url('/images/bg3.png');
   color: rgb(18, 18, 18);
   padding: 60px 40px;
   border-radius: 24px;
   text-align: center;
   margin-bottom: 40px;
   position: relative;
-  color: white;
   padding: 60px 40px;
   border-radius: 24px;
   text-align: center;
@@ -131,12 +131,22 @@ onMounted(() => {
 .hero-section h1 {
   font-size: 42px;
   margin-bottom: 16px;
+  color: rgba(248, 243, 243);
+
+  
 }
 
 .hero-section p {
   font-size: 18px;
   margin-bottom: 30px;
   opacity: 0.9;
+  h1 span[lang="en"] {
+    font-style: italic;}
+  h1 span:not([lang="en"]) {
+    font-style: normal;}
+  color:rgba(55, 52, 52, 0.55)
+  
+
 }
 
 .hero-buttons {
@@ -147,6 +157,9 @@ onMounted(() => {
 
 .hero-buttons .btn-primary,
 .hero-buttons .btn-secondary {
+  background: linear-gradient(135deg, #ffe385 0%, #fef1cf 100%);
+  color: #666;
+  border: none;
   text-decoration: none;
 }
 
@@ -158,7 +171,7 @@ onMounted(() => {
 }
 
 .stat-card {
-  background: rgb(255, 255, 255);
+  background: rgb(243, 242, 241,0.8);
   padding: 30px;
   border-radius: 20px;
   text-align: center;
@@ -168,7 +181,7 @@ onMounted(() => {
 .stat-number {
   font-size: 36px;
   font-weight: bold;
-  color: #516ca2;
+  color: #dd7717;
   margin-bottom: 8px;
 }
 
@@ -195,7 +208,7 @@ onMounted(() => {
 }
 
 .feature-card {
-  background: rgb(233, 139, 139);
+  background: #f5f5f4cc;
   padding: 30px;
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);

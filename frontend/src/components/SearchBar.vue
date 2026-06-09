@@ -86,11 +86,11 @@ const clearTitle = () => {
 
 <style scoped>
 .search-bar {
-  background: white;
+  background:linear-gradient(135deg, rgba(242, 159, 17) 0%, rgb(255, 255, 255) 100%);
   padding: 20px;
   border-radius: 16px;
   margin-bottom: 24px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border-color:rgba(141, 139, 139, 0.08);
 }
 
 .search-row {
@@ -125,7 +125,7 @@ const clearTitle = () => {
 }
 
 .search-input-wrapper input:focus {
-  border-color: #667eea;
+  border-color: #ecb154;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
@@ -155,7 +155,7 @@ const clearTitle = () => {
 }
 
 .filter-select:focus {
-  border-color: #667eea;
+  border-color: #f0a62f;
 }
 
 @media (max-width: 768px) {

@@ -24,10 +24,10 @@
         <span :class="['badge', difficultyClass]">
           {{ difficultyText }}
         </span>
-        <span>⏱️ 烹饪时间：{{ recipe.cookingTime }}分钟</span>
+        <span>⏳ 烹饪时间：{{ recipe.cookingTime }}分钟</span>
         <span>👤 作者：{{ recipe.authorName || '匿名' }}</span>
         <span>📅 发布时间：{{ formatDate(recipe.createTime) }}</span>
-        <span>👁️ 浏览：{{ recipe.viewCount }}次</span>
+        <span>👀 浏览：{{ recipe.viewCount }}次</span>
       </div>
       
       <!-- 点赞区域 -->
@@ -341,9 +341,9 @@ onMounted(async () => {
 }
 
 .btn-back:hover {
-  background: #667eea;
+  background: #efb238;
   color: white;
-  border-color: #667eea;
+  border-color: #e67c1e;
 }
 
 .loading-wrapper {
@@ -356,7 +356,7 @@ onMounted(async () => {
   width: 40px;
   height: 40px;
   border: 3px solid #f3f3f3;
-  border-top-color: #667eea;
+  border-top-color: #f6b567;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -374,7 +374,7 @@ onMounted(async () => {
 
 .detail-image {
   width: 100%;
-  max-height: 400px;
+  max-height: 600px;
   overflow: hidden;
   border-radius: 12px;
   margin-bottom: 20px;
@@ -461,13 +461,13 @@ onMounted(async () => {
 
 .comment-input textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #f0c243;
 }
 
 .comment-input button {
   margin-top: 10px;
   padding: 8px 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ead76b 0%, #f1781c 100%);
   color: white;
   border: none;
   border-radius: 25px;
@@ -493,7 +493,7 @@ onMounted(async () => {
 }
 
 .login-tip a {
-  color: #667eea;
+  color: #fa881d;
   text-decoration: none;
 }
 

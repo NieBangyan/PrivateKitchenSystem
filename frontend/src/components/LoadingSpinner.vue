@@ -22,7 +22,7 @@
   width: 50px;
   height: 50px;
   border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #667eea;
+  border-top-color: hsl(33, 91%, 60%);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

@@ -186,7 +186,7 @@ onMounted(() => {
 }
 
 .manage-actions input:focus {
-  border-color: #667eea;
+  border-color: #e5a225;
 }
 
 .data-table {
@@ -227,7 +227,7 @@ onMounted(() => {
   width: 40px;
   height: 40px;
   border: 3px solid #f3f3f3;
-  border-top-color: #667eea;
+  border-top-color: #ec8f15;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

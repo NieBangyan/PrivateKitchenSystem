@@ -13,10 +13,11 @@
         <span :class="['badge', difficultyClass]">
           {{ difficultyText }}
         </span>
-        <span>⏱️ {{ recipe.cookingTime }}分钟</span>
-        <span>👁️ {{ recipe.viewCount }}次浏览</span>
+        <span>⏳ {{ recipe.cookingTime }}分钟</span>
+        <span>👀 {{ recipe.viewCount }}次浏览</span>
+        <span>❤️ {{ recipe.likeCount }}点赞</span>
       </div>
-      <p class="author">作者：{{ recipe.authorName || '匿名' }}</p>
+      <p class="author">{{ recipe.authorName || '匿名' }}</p>
     </div>
   </div>
 </template>
@@ -53,11 +54,12 @@ const difficultyClass = computed(() => difficultyClassMap[props.recipe.difficult
 .recipe-card {
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
+  background:rgba(204, 130, 20,0.35);
 }
 
 .recipe-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 30px rgba(222, 132, 14, 0.15);
 }
 
 .recipe-image {
