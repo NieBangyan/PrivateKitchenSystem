@@ -85,6 +85,7 @@ private-kitchen-backend/
 │           ├── application-dev.yml                       # 开发环境配置
 │           ├── application-prod.yml                      # 生产环境配置
 │           │
+
 │           ├── mapper/                                   # MyBatis XML映射
 │           │   ├── UserMapper.xml
 │           │   ├── RecipeMapper.xml
