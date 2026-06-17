@@ -28,6 +28,7 @@
         <span>👤 作者：{{ recipe.authorName || '匿名' }}</span>
         <span>📅 发布时间：{{ formatDate(recipe.createTime) }}</span>
         <span>👀 浏览：{{ recipe.viewCount }}次</span>
+        <span>💬 评论：{{ recipe.commentCount || 0 }}</span>
       </div>
       
       <!-- 点赞区域 -->

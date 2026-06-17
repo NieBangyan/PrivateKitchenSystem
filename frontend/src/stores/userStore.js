@@ -12,7 +12,9 @@ export const useUserStore = defineStore('user', () => {
   const isLoggedIn = computed(() => !!user.value)
   const isAdmin = computed(() => user.value?.role === 'admin')
   const username = computed(() => user.value?.username || '')
+  const recipeCount = computed(() => user.value?.recipe_count || 0)  // 新增
   
+})
   // 登录
   async function login(credentials) {
     isLoading.value = true
@@ -114,4 +116,3 @@ export const useUserStore = defineStore('user', () => {
     fetchCurrentUser,
     changePassword
   }
-})

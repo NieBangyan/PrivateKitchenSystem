@@ -8,6 +8,7 @@
         <p><strong>邮箱：</strong> {{ userStore.user.email || '未设置' }}</p>
         <p><strong>手机号：</strong> {{ userStore.user.phone || '未设置' }}</p>
         <p><strong>角色：</strong> {{ userStore.user.role === 'admin' ? '管理员' : '普通用户' }}</p>
+        <p><strong>发布菜谱数：</strong> {{ userStore.user.recipeCount || userStore.user.recipe_count || 0 }} 篇</p>
         <p><strong>注册时间：</strong> {{ formatDate(userStore.user.createTime) }}</p>
       </div>
     </div>
