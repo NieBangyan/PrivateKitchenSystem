@@ -20,7 +20,13 @@ public class Recipe {
     private Integer commentCount;
     private Integer likeCount;
 
+    public Integer getCommentCount() {
+        return commentCount;
+    }
 
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
+    }
     public Integer getLikeCount() {
         return likeCount;
     }
