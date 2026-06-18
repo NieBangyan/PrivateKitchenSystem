@@ -10,7 +10,6 @@ import java.util.Map;
 @Mapper
 public interface UserMapper {
 
-    // ========== 查询方法 ==========
 
     User login(@Param("username") String username, @Param("password") String password);
 
@@ -21,8 +20,6 @@ public interface UserMapper {
     List<User> search(String keyword);
 
     List<User> findAll();
-
-    // ========== 增删改方法 ==========
 
     int insert(User user);
 
@@ -35,8 +32,6 @@ public interface UserMapper {
     int updateStatus(@Param("id") Integer id, @Param("status") Integer status);
 
     int batchDelete(@Param("ids") List<Integer> ids);
-
-    // ========== 统计方法 ==========
 
     long count();
 

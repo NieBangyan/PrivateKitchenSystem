@@ -33,7 +33,7 @@ async function search(params) {
 }
   
   // 获取详情
-  async function getDetail(id) {
+async function getDetail(id) {
     isLoading.value = true
     try {
       const res = await recipeApi.getDetail(id)
@@ -48,6 +48,7 @@ async function search(params) {
       isLoading.value = false
     }
   }
+  
   
   // 添加菜谱
   async function addRecipe(data) {

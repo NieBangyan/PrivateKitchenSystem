@@ -239,4 +239,21 @@ public class RecipeServiceImpl implements RecipeService {
     public List<Map<String, Object>> getStatsByDifficulty() {
         return recipeMapper.getStatsByDifficulty();
     }
+
+    /**
+     * 点赞菜谱
+     */
+    @Override
+    @Transactional
+    public boolean likeRecipe(Integer id) {
+        if (id == null) {
+            throw new RuntimeException("菜谱ID不能为空");
+        }
+        Recipe recipe = recipeMapper.findById(id);
+        if (recipe == null) {
+            throw new RuntimeException("菜谱不存在");
+        }
+        int result = recipeMapper.likeRecipe(id);
+        return result > 0;
+    }
 }

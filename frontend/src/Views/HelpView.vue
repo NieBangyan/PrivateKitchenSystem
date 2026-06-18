@@ -21,14 +21,14 @@
       <h3>📧 联系我们</h3>
       <p>如有问题或建议，请联系我们：</p>
       <p>邮箱：support@private-kitchen.com</p>
-      <p>电话：400-888-XXXX</p>
-      <p>地址：北京市朝阳区xxx大厦</p>
+      <p>电话：0377-000-XXXX</p>
+      <p>地址：南阳市</p>
     </div>
     
     <div class="help-section">
       <h3>📝 系统说明</h3>
       <p>版本：v2.0.0</p>
-      <p>更新日期：2025年1月</p>
+      <p>更新日期：2026年6月</p>
       <p>技术支持：私房菜团队</p>
       <p>技术栈：Spring Boot + Vue 3 + Vite + Pinia</p>
     </div>

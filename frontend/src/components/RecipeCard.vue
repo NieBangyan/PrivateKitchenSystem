@@ -16,6 +16,7 @@
         <span>⏳ {{ recipe.cookingTime }}分钟</span>
         <span>👀 {{ recipe.viewCount }}次浏览</span>
         <span>❤️ {{ recipe.likeCount }}点赞</span>
+        <span>💬 {{ recipe.commentCount || 0 }}</span> 
       </div>
       <p class="author">{{ recipe.authorName || '匿名' }}</p>
     </div>

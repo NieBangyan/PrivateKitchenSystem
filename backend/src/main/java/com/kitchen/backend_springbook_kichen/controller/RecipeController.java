@@ -1,7 +1,9 @@
 package com.kitchen.backend_springbook_kichen.controller;
 
 import com.kitchen.backend_springbook_kichen.entity.Recipe;
+import com.kitchen.backend_springbook_kichen.service.CategoryService;
 import com.kitchen.backend_springbook_kichen.service.RecipeService;
+import com.kitchen.backend_springbook_kichen.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,12 @@ public class RecipeController {
 
     @Autowired
     private RecipeService recipeService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     /**
      * 多条件搜索菜谱
@@ -140,7 +148,6 @@ public class RecipeController {
     public Map<String, Object> add(@RequestBody Recipe recipe, HttpSession session) {
         Map<String, Object> result = new HashMap<>();
 
-        // 检查登录状态
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) {
             result.put("code", 401);
@@ -179,7 +186,6 @@ public class RecipeController {
         }
 
         try {
-            // 检查权限：只有作者或管理员可以修改
             Recipe existing = recipeService.getRecipeById(recipe.getId());
             if (!existing.getAuthorId().equals(userId) && !"admin".equals(role)) {
                 result.put("code", 403);
@@ -217,7 +223,6 @@ public class RecipeController {
         }
 
         try {
-            // 检查权限：只有作者或管理员可以删除
             Recipe existing = recipeService.getRecipeById(id);
             if (!existing.getAuthorId().equals(userId) && !"admin".equals(role)) {
                 result.put("code", 403);
@@ -268,6 +273,56 @@ public class RecipeController {
         try {
             result.put("code", 200);
             result.put("data", recipeService.getLatestRecipes(limit));
+            result.put("message", "获取成功");
+        } catch (Exception e) {
+            result.put("code", 500);
+            result.put("message", e.getMessage());
+        }
+        return result;
+    }
+
+    /**
+     * 点赞菜谱
+     * POST /api/recipe/like/{id}
+     */
+    @PostMapping("/like/{id}")
+    public Map<String, Object> likeRecipe(@PathVariable Integer id) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            boolean success = recipeService.likeRecipe(id);
+            if (success) {
+                result.put("code", 200);
+                result.put("message", "点赞成功");
+            } else {
+                result.put("code", 500);
+                result.put("message", "点赞失败");
+            }
+        } catch (Exception e) {
+            result.put("code", 500);
+            result.put("message", e.getMessage());
+        }
+        return result;
+    }
+
+    /**
+     * 获取首页统计数据
+     * GET /api/recipe/stats
+     */
+    @GetMapping("/stats")
+    public Map<String, Object> getStats() {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            long recipeCount = recipeService.getRecipeCount();
+            long userCount = userService.getUserCount();
+            long categoryCount = categoryService.getCategoryCount();
+
+            Map<String, Object> data = new HashMap<>();
+            data.put("recipeCount", recipeCount);
+            data.put("userCount", userCount);
+            data.put("categoryCount", categoryCount);
+
+            result.put("code", 200);
+            result.put("data", data);
             result.put("message", "获取成功");
         } catch (Exception e) {
             result.put("code", 500);

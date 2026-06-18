@@ -2,7 +2,8 @@
   <div class="home-container">
     <div class="hero-section">
       <h1>发现美味，分享快乐</h1>
-      <p>每一个热爱生活的人，都值得拥有一道拿手好菜 <p>Every person who loves life deserves to have a signature dish</p></p>
+      <p>每一个热爱生活的人，都值得拥有一道拿手好菜</p>
+      <p style="font-size:14px;opacity:0.7;">Every person who loves life deserves to have a signature dish</p>
      
       <div class="hero-buttons">
         <router-link to="/recipes" class="btn-primary">浏览菜谱</router-link>
@@ -18,41 +19,11 @@
         <div class="stat-label">精选菜谱</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">{{ stats.userCount }}</div>
-        <div class="stat-label">注册用户</div>
-      </div>
-      <div class="stat-card">
         <div class="stat-number">{{ stats.categoryCount }}</div>
         <div class="stat-label">美食分类</div>
       </div>
     </div>
-    
-    <div class="features-section">
-      <h2>系统特色</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">📋</div>
-          <h3>海量菜谱</h3>
-          <p>收录全国各地特色菜谱，满足您的烹饪需求</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔎</div>
-          <h3>智能搜索</h3>
-          <p>支持多条件组合查询，快速找到心仪菜谱</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📝</div>
-          <h3>分享交流</h3>
-          <p>发布您的独家菜谱，与美食爱好者交流心得</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📉</div>
-          <h3>数据报表</h3>
-          <p>支持数据导出为Excel、PDF等格式</p>
-        </div>
-      </div>
-    </div>
-    
+  
     <div class="latest-section">
       <h2>最新菜谱</h2>
       <div v-if="latestRecipes.length === 0" class="empty-state">
@@ -76,6 +47,7 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 import { useRecipeStore } from '@/stores/recipeStore'
 import RecipeCard from '@/components/RecipeCard.vue'
+import axios from '@/api'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -84,7 +56,6 @@ const recipeStore = useRecipeStore()
 const latestRecipes = ref([])
 const stats = ref({
   recipeCount: 0,
-  userCount: 0,
   categoryCount: 0
 })
 
@@ -99,8 +70,20 @@ const loadLatestRecipes = async () => {
   }
 }
 
+const loadStats = async () => {
+  try {
+    const res = await axios.get('/recipe/stats')
+    if (res.code === 200) {
+      stats.value = res.data
+    }
+  } catch (error) {
+    console.error('加载统计数据失败', error)
+  }
+}
+
 onMounted(() => {
   loadLatestRecipes()
+  loadStats()
 })
 </script>
 
@@ -115,38 +98,26 @@ onMounted(() => {
 }
 
 .hero-section {
- background: url('/images/bg3.png');
+  background: url('/images/bg3.png');
   color: rgb(18, 18, 18);
   padding: 60px 40px;
   border-radius: 24px;
   text-align: center;
   margin-bottom: 40px;
   position: relative;
-  padding: 60px 40px;
-  border-radius: 24px;
-  text-align: center;
-  margin-bottom: 40px;
 }
 
 .hero-section h1 {
   font-size: 42px;
   margin-bottom: 16px;
   color: rgba(248, 243, 243);
-
-  
 }
 
 .hero-section p {
   font-size: 18px;
   margin-bottom: 30px;
   opacity: 0.9;
-  h1 span[lang="en"] {
-    font-style: italic;}
-  h1 span:not([lang="en"]) {
-    font-style: normal;}
-  color:rgba(55, 52, 52, 0.55)
-  
-
+  color: rgba(55, 52, 52, 0.55);
 }
 
 .hero-buttons {
@@ -165,73 +136,33 @@ onMounted(() => {
 
 .stats-section {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;  
   margin-bottom: 50px;
+  max-width: 1200px; 
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px;  
 }
 
 .stat-card {
-  background: rgb(243, 242, 241,0.8);
-  padding: 30px;
+  background: rgba(243, 242, 241, 0.8);
+  padding: 35px 30px; 
   border-radius: 20px;
   text-align: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .stat-number {
-  font-size: 36px;
+  font-size: 40px;  
   font-weight: bold;
   color: #dd7717;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .stat-label {
   color: #666;
-  font-size: 14px;
-}
-
-.features-section {
-  text-align: center;
-  margin-bottom: 50px;
-}
-
-.features-section h2 {
-  font-size: 32px;
-  margin-bottom: 40px;
-  color: #333;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-}
-
-.feature-card {
-  background: #f5f5f4cc;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s;
-}
-
-.feature-card:hover {
-  transform: translateY(-5px);
-}
-
-.feature-icon {
-  font-size: 48px;
-  margin-bottom: 15px;
-}
-
-.feature-card h3 {
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.feature-card p {
-  color: #666;
-  line-height: 1.6;
+  font-size: 16px; 
 }
 
 .latest-section {
@@ -250,6 +181,15 @@ onMounted(() => {
   gap: 24px;
 }
 
+.empty-state {
+  text-align: center;
+  padding: 60px;
+  color: #999;
+  font-size: 16px;
+  background: white;
+  border-radius: 16px;
+}
+
 @media (max-width: 768px) {
   .hero-section h1 {
     font-size: 28px;
@@ -265,10 +205,6 @@ onMounted(() => {
   
   .stat-number {
     font-size: 24px;
-  }
-  
-  .features-grid {
-    grid-template-columns: 1fr;
   }
   
   .recipes-grid {

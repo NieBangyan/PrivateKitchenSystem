@@ -17,10 +17,10 @@ public class Recipe {
     private Date updateTime;
     private String categoryName;
     private String authorName;
-    // 在类中添加字段
+    private Integer commentCount;
     private Integer likeCount;
 
-    // 添加 Getter
+
     public Integer getLikeCount() {
         return likeCount;
     }

@@ -581,9 +581,9 @@ onMounted(async () => {
 }
 
 .comment-pagination button:hover:not(:disabled) {
-  background: #667eea;
+  background: #e72e15;
   color: white;
-  border-color: #667eea;
+  border-color: #080808;
 }
 
 .comment-pagination button:disabled {

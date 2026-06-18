@@ -12,7 +12,8 @@ public class User {
     private String role;
     private Integer status;
     private Date createTime;
-    private Date updateTime;  // 确保有这个字段
+    private Date updateTime;
+    private Integer recipeCount;
 
     // 无参构造器
     public User() {}

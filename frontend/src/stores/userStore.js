@@ -12,9 +12,8 @@ export const useUserStore = defineStore('user', () => {
   const isLoggedIn = computed(() => !!user.value)
   const isAdmin = computed(() => user.value?.role === 'admin')
   const username = computed(() => user.value?.username || '')
-  const recipeCount = computed(() => user.value?.recipe_count || 0)  // 新增
+  const recipeCount = computed(() => user.value?.recipeCount || user.value?.recipe_count || 0)
   
-})
   // 登录
   async function login(credentials) {
     isLoading.value = true
@@ -92,6 +91,54 @@ export const useUserStore = defineStore('user', () => {
     }
   }
   
+  // 添加用户（管理员）
+  async function addUser(userData) {
+    isLoading.value = true
+    try {
+      const res = await userApi.addUser(userData)
+      if (res.code === 200) {
+        return { success: true, message: res.message }
+      }
+      return { success: false, message: res.message }
+    } catch (error) {
+      return { success: false, message: error.message }
+    } finally {
+      isLoading.value = false
+    }
+  }
+  
+  // 删除用户（管理员）
+  async function deleteUser(id) {
+    isLoading.value = true
+    try {
+      const res = await userApi.deleteUser(id)
+      if (res.code === 200) {
+        return { success: true, message: res.message }
+      }
+      return { success: false, message: res.message }
+    } catch (error) {
+      return { success: false, message: error.message }
+    } finally {
+      isLoading.value = false
+    }
+  }
+  
+  // 获取用户列表（管理员）
+  async function getUserList(keyword = '') {
+    isLoading.value = true
+    try {
+      const res = await userApi.getUserList({ keyword })
+      if (res.code === 200) {
+        return { success: true, data: res.data }
+      }
+      return { success: false, data: [] }
+    } catch (error) {
+      return { success: false, data: [] }
+    } finally {
+      isLoading.value = false
+    }
+  }
+  
   // 从localStorage恢复用户
   function restoreUser() {
     const savedUser = localStorage.getItem('user')
@@ -110,9 +157,14 @@ export const useUserStore = defineStore('user', () => {
     isLoggedIn,
     isAdmin,
     username,
+    recipeCount,        // 新增
     login,
     register,
     logout,
     fetchCurrentUser,
-    changePassword
+    changePassword,
+    addUser,            // 新增
+    deleteUser,         // 新增
+    getUserList         // 新增
   }
+})
