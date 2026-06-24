@@ -11,11 +11,10 @@ This is a web_based food social platform,offers users one-stop food learning and
 | chef_an    | 123456   | Regular User     |
 
 ## 3.Development Tools
-| Tool               | Purpose                     |
-| ------------------ | --------------------------- |
-| IntelliJ IDEA      | Backend development         |
-| Visual Studio Code | Frontend development       |
-| Navicat            | Database management        |
+
+- IntelliJ IDEA : Backend development
+- Visual Studio Code : Frontend development  
+- Navicat : Database management   
 
 ## 4.tech stack
 ### frontend teck
@@ -141,11 +140,9 @@ Each component of the system runs on a separate port without conflicts.
 
 ## Access Address
 
-| Service         | Address                |
-| --------------- | ---------------------- |
-| Frontend Page   | http://localhost:3000  |
-| Backend API     | http://localhost:8080  |
-| Database        | localhost:3306         |
+- Frontend Page : http://localhost:3000  
+- Backend API : http://localhost:8080 
+- Database  : localhost:3306  
 
 ## Vite Proxy Configuration (Solve Cross-Origin Issues)
 
@@ -221,12 +218,11 @@ npm run dev
 | **Duplicate entry** | Duplicate data | The username already exists, please use a new one |
 
 ## 4. Quick Error Location
-| Error Type | Check Location |
-| ---- | ---- |
-| Frontend page error | Browser F12 → Console |
-| Frontend network request | Browser F12 → Network |
-| Backend error | IDEA console logs |
-| Database error | Error messages in Navicat |
+
+- Frontend page error : Browser F12 → Console 
+- Frontend network request : Browser F12 → Network 
+- Backend error : IDEA console logs 
+- Database error : Error messages in Navicat 
 
 ## 5. Quick Recovery
 1. Make sure MySQL service is running
