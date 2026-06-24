@@ -54,35 +54,43 @@ PrivateKitchenSystem/
 ## Core Modules
 
 | Module | count | Description |
+
 | Controller | 4 | Handle HTTP requests |
+
 | Service | 4 + 4 impl | Business logic |
+
 | Mapper | 4 | Database operations |
+
 | Entity | 4 | Data models |
+
 | Views | 8 | Page UI |
+
 | Components | 6 | Reusable UI |
 
 ## Architecture Workflow Overview
 ```bush
-┌───────────────────────────────┐
-│        Client Browser         │
-│    http://localhost:3000      │
-└───────────────┬───────────────┘
-                ▼
-┌───────────────────────────────┐
-│ Frontend (Vue3 + Vite)        │
-│ Views | Components | Stores  │
-│ Axios Request → Backend API   │
-└───────────────┬───────────────┘
-                ▼
-┌───────────────────────────────┐
-│ Backend (Spring Boot)         │
-│ Controller: Req → Validate → Service │
-│ Service: Logic → Check → Mapper     │
-│ Mapper: Execute SQL → Return Res    │
-└───────────────┬───────────────┘
-                ▼
-┌───────────────────────────────┐
-│     Database (MySQL)          │
-│ user / category / recipe / comment │
-└───────────────────────────────┘
+Architecture Workflow Overview
+
+┌───────────────────────────────────────────┐
+│              Client Browser               │
+│           http://localhost:3000           │
+└───────────────────────────┬───────────────┘
+                            ▼
+┌───────────────────────────────────────────┐
+│        Frontend (Vue 3 + Vite)            │
+│  Views  │  Components  │  Stores         │
+│  Axios Request → Backend API              │
+└───────────────────────────┬───────────────┘
+                            ▼
+┌───────────────────────────────────────────┐
+│        Backend (Spring Boot)              │
+│  Controller:  Req → Validate → Service    │
+│  Service:     Logic → Check → Mapper      │
+│  Mapper:      Execute SQL → Return Res    │
+└───────────────────────────┬───────────────┘
+                            ▼
+┌───────────────────────────────────────────┐
+│           Database (MySQL)                │
+│  user / category / recipe / comment       │
+└───────────────────────────────────────────┘
 ```
