@@ -1,9 +1,22 @@
 # Basic Information
 
 ## 1.Private Kitchen Learning & Sharing System（Web-based Recipe Learning and Sharing Platform) 
-This is a web_based food social platform,offers users one-stop food learning and communication services, covering recipe browsing, publishing, search, comments, likes, etc. Ideal for home cooking learning, foodie community interaction, and recipe sharing.
+This is a web-based food social platform,oprovides users with one-stop food learning and community communication capabilities, covering recipe browsing, publishing, search, comments, likes, etc. Suitable for home cooking enthusiasts to learn recipes, interact in a foodie community, and share homemade dishes.
+## Business Scenarios
+Home cooking learning, community communication for food lovers, recipe sharing and collection.
+
+## Function Overview
+- User Management : Register, login, permission control (Administrator / Regular User), personal information modification
+- Recipe Management : Publish, browse, multi-condition search (title + category + difficulty), view details, edit and delete
+- Category Management : Display and filter cuisine categories
+- Interaction : Like recipes, post comments, like comments, delete comments 
+- Data Statistics : Number of featured recipes, categories, user publications and recipe comments 
+- Personal Center : View personal information, change password 
+- Admin Functions : View user list, add users, delete users 
 
 ## 2.Default Login Account
+The following are preset test accounts for system access.
+
 | Username   | Password | Role             |
 | ---------- | -------- | ---------------- |
 | admin      | 123456   | Administrator    |
@@ -17,7 +30,7 @@ This is a web_based food social platform,offers users one-stop food learning and
 - Navicat : Database management   
 
 ## 4.tech stack
-### frontend teck
+### frontend tech
 | Technology | Version | Function |
 | ---------- | ------- | -------- |
 | Vue 3      | 3.3.x   | Core frontend framework for building UI and interactive logic |
@@ -26,7 +39,9 @@ This is a web_based food social platform,offers users one-stop food learning and
 | Vue Router | 4.2.x   | Page routing management for SPA navigation |
 | Axios      | 1.6.x   | HTTP client to send requests and call backend APIs |
 
-### backend teck
+### backend tech
+The table below lists the core technologies, corresponding versions and their roles used in the frontend project.
+
 | Technology | Version | Function |
 | ---------- | ------- | -------- |
 | Spring Boot | 2.7.14 | Core backend framework for providing RESTful APIs |
@@ -35,10 +50,15 @@ This is a web_based food social platform,offers users one-stop food learning and
 | Druid      | 1.2.20  | Database connection pool for connection management |
 | Maven      | 3.x     | Project build and dependency management |
 
-### database teck
+### database tech
 | Technology | Version | Function |
 | ---------- | ------- | -------- |
 | MySQL      | 8.0     | Relational database for data persistent storage |
+
+### Database Design (ER Diagram)
+Below is the relational model of the core data tables in the system.
+The database contains 4 data tables corresponding to 4 entities, supporting four core functions: user management, recipe management, category management and comment management.
+<img width="1117" height="522" alt="image" src="https://github.com/user-attachments/assets/29d761a7-e265-475b-9e6c-25ddf8080f08" />
 
 # Project Structure
 ## 1.Directory Structure
@@ -125,7 +145,7 @@ PrivateKitchenSystem/
 └───────────────────────────┬───────────────┘
                             ▼
 ┌───────────────────────────────────────────┐
-│           Database (MySQL 3006)           │
+│           Database (MySQL 3306)           │
 │  user / category / recipe / comment       │
 └───────────────────────────────────────────┘
 ```
@@ -158,6 +178,47 @@ server: {
     }
   }
 }
+```
+#
+
+## Install JDK 17
+Download link: https://adoptium.net/
+
+Select Temurin 17 (LTS) and download the Windows installer.
+
+Run the installer and follow the on-screen prompts to complete the installation.
+
+Verify the installation:
+```
+java -version
+```
+The output should show `openjdk version "17.x.x" `
+
+## Install MySQL 8.0
+Download link: https://dev.mysql.com/downloads/installer/
+
+Select Windows (x86, 32-bit), MSI Installer.
+
+Choose Developer Default during setup, then proceed with the default configurations.
+
+Set your root password (please keep it in mind) and click Execute to finish the installation.
+
+Verify the installation:
+```
+mysql --version
+```
+## Install Node.js
+Download link: https://nodejs.org/
+
+Choose the LTS (Long-term Support) version.
+
+Run the installer and follow the on-screen prompts to complete the installation.
+
+Verify the installation:
+
+```
+node -v   # Version v16.x.x or above is required
+npm -v    # Version 8.x.x or above is required
 ```
 # Local Startup Guide
 
