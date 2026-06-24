@@ -1,6 +1,7 @@
 # Basic Information
 
-## 1.Private Kitchen Learning & Sharing System（Web-based Recipe Learning and Sharing Platform) is a web_based food social platform,offers users one-stop food learning and communication services, covering recipe browsing, publishing, search, comments, likes, etc. Ideal for home cooking learning, foodie community interaction, and recipe sharing.
+## 1.Private Kitchen Learning & Sharing System（Web-based Recipe Learning and Sharing Platform) 
+This is a web_based food social platform,offers users one-stop food learning and communication services, covering recipe browsing, publishing, search, comments, likes, etc. Ideal for home cooking learning, foodie community interaction, and recipe sharing.
 
 ## 2.Default Login Account
 | Username   | Password | Role             |
@@ -193,7 +194,7 @@ npm install
 npm run dev
 ```
 
-5.The following terminal output means the frontend has started successfully:
+5. The following terminal output means the frontend has started successfully:
 
 # Common Errors & Solutions
 ##  1. Backend Errors
@@ -219,12 +220,23 @@ npm run dev
 | **foreign key constraint fails** | Foreign key constraint conflict | Ensure the associated data exists, e.g. valid `category_id` in category table |
 | **Duplicate entry** | Duplicate data | The username already exists, please use a new one |
 
-## Quick Recovery
-```bash
-# 1. Make sure MySQL service is running
-# 2. Start the backend in IDEA
-# 3. Restart the frontend
+## 4. Quick Error Location
+| Error Type | Check Location |
+| ---- | ---- |
+| Frontend page error | Browser F12 → Console |
+| Frontend network request | Browser F12 → Network |
+| Backend error | IDEA console logs |
+| Database error | Error messages in Navicat |
+
+## 5. Quick Recovery
+1. Make sure MySQL service is running
+  
+2. Start the backend in IDEA
+  
+3. Restart the frontend
+```
 cd frontend
 rm -rf node_modules
 npm install
 npm run dev
+```
