@@ -48,7 +48,7 @@ The table below lists the core technologies, corresponding versions and their ro
 | Java       | 17      | Backend development language |
 | MyBatis    | 2.3.0   | Persistence framework for executing database SQL operations |
 | Druid      | 1.2.20  | Database connection pool for connection management |
-| Maven      | 3.x     | Project build and dependency management |
+| Maven      | 3.11.0  | Project build and dependency management |
 
 ### database tech
 | Technology | Version | Function |
@@ -240,7 +240,7 @@ npm -v    # Version 8.x.x or above is required
 ## 3.Start Frontend (VS Code)
 1. Open VSCode → File → Open Folder → Select `D:\PrivateKitchenSystem\frontend`
 
-2. Press `Ctrl + `` to open the terminal.
+2. Press `Ctrl + ` to open the terminal.
 
 3. Install dependencies:
 ```
@@ -253,6 +253,8 @@ npm run dev
 ```
 
 5. The following terminal output means the frontend has started successfully:
+<img width="365" height="100" alt="image" src="https://github.com/user-attachments/assets/2f2d6819-4b98-45b4-bdf8-a5f1b5785a20" />
+
 
 # Common Errors & Solutions
 ##  1. Backend Errors
