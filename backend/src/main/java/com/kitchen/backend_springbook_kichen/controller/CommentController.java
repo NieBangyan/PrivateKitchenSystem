@@ -16,7 +16,6 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    // 获取菜谱评论列表
     @GetMapping("/list/{recipeId}")
     public Map<String, Object> list(@PathVariable Integer recipeId,
                                     @RequestParam(defaultValue = "1") Integer page,
@@ -26,7 +25,7 @@ public class CommentController {
             Map<String, Object> data = commentService.getCommentsByRecipe(recipeId, page, pageSize);
             result.put("code", 200);
             result.put("data", data);
-            result.put("message", "获取成功");
+            result.put("message", "get comments success");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -34,14 +33,14 @@ public class CommentController {
         return result;
     }
 
-    // 添加评论
+
     @PostMapping("/add")
     public Map<String, Object> add(@RequestBody Comment comment, HttpSession session) {
         Map<String, Object> result = new HashMap<>();
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) {
             result.put("code", 401);
-            result.put("message", "请先登录");
+            result.put("message", "Please login");
             return result;
         }
 
@@ -50,7 +49,7 @@ public class CommentController {
             Comment newComment = commentService.addComment(comment);
             result.put("code", 200);
             result.put("data", newComment);
-            result.put("message", "评论成功");
+            result.put("message", "comment added successfully");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -66,10 +65,10 @@ public class CommentController {
             boolean success = commentService.likeComment(id);
             if (success) {
                 result.put("code", 200);
-                result.put("message", "点赞成功");
+                result.put("message", "like success");
             } else {
                 result.put("code", 500);
-                result.put("message", "点赞失败");
+                result.put("message", "like failed");
             }
         } catch (Exception e) {
             result.put("code", 500);
@@ -87,7 +86,7 @@ public class CommentController {
 
         if (userId == null) {
             result.put("code", 401);
-            result.put("message", "请先登录");
+            result.put("message", "please login");
             return result;
         }
 
@@ -95,10 +94,10 @@ public class CommentController {
             boolean success = commentService.deleteComment(id, userId, role);
             if (success) {
                 result.put("code", 200);
-                result.put("message", "删除成功");
+                result.put("message", "delete success");
             } else {
                 result.put("code", 500);
-                result.put("message", "删除失败");
+                result.put("message", "delete failed");
             }
         } catch (Exception e) {
             result.put("code", 500);

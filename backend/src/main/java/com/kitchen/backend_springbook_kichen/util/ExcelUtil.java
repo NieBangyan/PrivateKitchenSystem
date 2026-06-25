@@ -23,11 +23,11 @@ public class ExcelUtil {
      */
     public static void setResponseHeader(HttpServletResponse response, String fileName) {
         try {
-            // 设置响应类型
+            // Set the response content type
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             response.setCharacterEncoding("UTF-8");
 
-            // 设置文件名（处理中文乱码）
+            // Set filename to resolve words garbling.
             String encodedFileName = URLEncoder.encode(fileName, "UTF-8")
                     .replaceAll("\\+", "%20");
             response.setHeader("Content-Disposition",

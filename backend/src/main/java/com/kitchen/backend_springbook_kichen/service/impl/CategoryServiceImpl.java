@@ -28,16 +28,16 @@ public class CategoryServiceImpl implements CategoryService {
      */
     private void validateCategory(Category category, boolean isNew) {
         if (category.getName() == null || category.getName().trim().isEmpty()) {
-            throw new RuntimeException("分类名称不能为空");
+            throw new RuntimeException("Category name cannot be empty");
         }
         if (category.getName().length() > 50) {
-            throw new RuntimeException("分类名称不能超过50个字符");
+            throw new RuntimeException("Category name cannot be longer than 50");
         }
 
         if (isNew) {
             Category existing = categoryMapper.findByName(category.getName());
             if (existing != null) {
-                throw new RuntimeException("分类名称已存在");
+                throw new RuntimeException("Category already exists");
             }
         }
     }
@@ -50,11 +50,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategoryById(Integer id) {
         if (id == null) {
-            throw new RuntimeException("分类ID不能为空");
+            throw new RuntimeException("Category id cannot be null");
         }
         Category category = categoryMapper.findById(id);
         if (category == null) {
-            throw new RuntimeException("分类不存在");
+            throw new RuntimeException("Category not found");
         }
         return category;
     }
@@ -62,7 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategoryByName(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new RuntimeException("分类名称不能为空");
+            throw new RuntimeException("Category name cannot be empty");
         }
         return categoryMapper.findByName(name);
     }
@@ -88,19 +88,19 @@ public class CategoryServiceImpl implements CategoryService {
         if (result > 0) {
             return categoryMapper.findById(category.getId());
         }
-        throw new RuntimeException("添加分类失败");
+        throw new RuntimeException("addCategory failed");
     }
 
     @Override
     @Transactional
     public Category updateCategory(Category category) {
         if (category.getId() == null) {
-            throw new RuntimeException("分类ID不能为空");
+            throw new RuntimeException("Category id cannot be null");
         }
 
         Category existing = categoryMapper.findById(category.getId());
         if (existing == null) {
-            throw new RuntimeException("分类不存在");
+            throw new RuntimeException("Category not found");
         }
 
         validateCategory(category, false);
@@ -108,7 +108,7 @@ public class CategoryServiceImpl implements CategoryService {
         // 检查名称是否与其他分类重复
         Category nameCheck = categoryMapper.findByName(category.getName());
         if (nameCheck != null && !nameCheck.getId().equals(category.getId())) {
-            throw new RuntimeException("分类名称已存在");
+            throw new RuntimeException("Category already exists");
         }
 
         existing.setName(category.getName());
@@ -119,25 +119,25 @@ public class CategoryServiceImpl implements CategoryService {
         if (result > 0) {
             return categoryMapper.findById(category.getId());
         }
-        throw new RuntimeException("更新分类失败");
+        throw new RuntimeException("Update Category Failed");
     }
 
     @Override
     @Transactional
     public boolean deleteCategory(Integer id) {
         if (id == null) {
-            throw new RuntimeException("分类ID不能为空");
+            throw new RuntimeException("CategoryID can never be null");
         }
 
         Category category = categoryMapper.findById(id);
         if (category == null) {
-            throw new RuntimeException("分类不存在");
+            throw new RuntimeException("Category not found");
         }
 
         // 检查参照完整性：该分类下是否有菜谱
         long count = recipeMapper.countByCategory(id);
         if (count > 0) {
-            throw new RuntimeException("该分类下还有 " + count + " 个菜谱，请先删除或移动菜谱");
+            throw new RuntimeException("This category contains " + count + " recipes. Please remove or relocate them first");
         }
 
         int result = categoryMapper.deleteById(id);
@@ -148,7 +148,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public boolean batchDeleteCategories(List<Integer> ids) {
         if (ids == null || ids.isEmpty()) {
-            throw new RuntimeException("请选择要删除的分类");
+            throw new RuntimeException("Please provide at least one category id");
         }
 
         // 检查每个分类下是否有菜谱
@@ -156,7 +156,7 @@ public class CategoryServiceImpl implements CategoryService {
             long count = recipeMapper.countByCategory(id);
             if (count > 0) {
                 Category category = categoryMapper.findById(id);
-                throw new RuntimeException("分类【" + category.getName() + "】下还有 " + count + " 个菜谱，无法删除");
+                throw new RuntimeException("There are still " + count + " recipes under category [" + category.getName() + "]. Deletion is not allowed.");
             }
         }
 

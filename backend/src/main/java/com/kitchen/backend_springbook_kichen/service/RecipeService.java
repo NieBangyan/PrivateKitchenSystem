@@ -39,6 +39,5 @@ public interface RecipeService {
 
     List<Map<String, Object>> getStatsByDifficulty();
 
-    // ========== 新增点赞方法 ==========
     boolean likeRecipe(Integer id);
 }

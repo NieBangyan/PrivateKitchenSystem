@@ -5,91 +5,91 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 用户服务接口
+ * User Service Interface
  */
 public interface UserService {
 
     /**
-     * 用户登录
-     * @param username 用户名
-     * @param password 密码
-     * @return 用户信息
+     * User login
+     * @param username Username
+     * @param password Password
+     * @return User information
      */
     User login(String username, String password);
 
     /**
-     * 用户注册
-     * @param user 用户信息
-     * @return 注册后的用户
+     * User registration
+     * @param user User information
+     * @return Registered user
      */
     User register(User user);
 
     /**
-     * 根据ID获取用户
-     * @param id 用户ID
-     * @return 用户信息
+     * Get user by ID
+     * @param id User ID
+     * @return User information
      */
     User getUserById(Integer id);
 
     /**
-     * 根据用户名获取用户
-     * @param username 用户名
-     * @return 用户信息
+     * Get user by username
+     * @param username Username
+     * @return User information
      */
     User getUserByUsername(String username);
 
     /**
-     * 获取所有用户
-     * @return 用户列表
+     * Get all users
+     * @return User list
      */
     List<User> getAllUsers();
 
     /**
-     * 搜索用户
-     * @param keyword 关键词
-     * @return 用户列表
+     * Search users
+     * @param keyword Search keyword
+     * @return User list
      */
     List<User> searchUsers(String keyword);
 
     /**
-     * 添加用户
-     * @param user 用户信息
-     * @return 添加后的用户
+     * Add a new user
+     * @param user User information
+     * @return Added user
      */
     User addUser(User user);
 
     /**
-     * 更新用户信息
-     * @param user 用户信息
-     * @return 更新后的用户
+     * Update user information
+     * @param user User information
+     * @return Updated user
      */
     User updateUser(User user);
 
     /**
-     * 修改密码
-     * @param userId 用户ID
-     * @param oldPassword 旧密码
-     * @param newPassword 新密码
-     * @return 是否成功
+     * Change password
+     * @param userId User ID
+     * @param oldPassword Old password
+     * @param newPassword New password
+     * @return Operation result
      */
     boolean changePassword(Integer userId, String oldPassword, String newPassword);
 
     /**
-     * 删除用户
-     * @param id 用户ID
-     * @return 是否成功
+     * Delete user
+     * @param id User ID
+     * @return Operation result
      */
     boolean deleteUser(Integer id);
 
     /**
-     * 获取用户总数
-     * @return 总数
+     * Get total number of users
+     * @return Total count
      */
     long getUserCount();
 
     /**
-     * 获取用户统计（按角色分组）
-     * @return 统计数据
+     * Get user statistics grouped by role
+     * @return Statistical data
      */
     List<Map<String, Object>> getUserStats();
 }

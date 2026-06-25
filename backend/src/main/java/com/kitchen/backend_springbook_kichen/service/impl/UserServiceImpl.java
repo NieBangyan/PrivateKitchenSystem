@@ -33,35 +33,35 @@ public class UserServiceImpl implements UserService {
      */
     private void validateUser(User user, boolean isNew) {
         if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
-            throw new RuntimeException("用户名不能为空");
+            throw new RuntimeException("Username is empty");
         }
         if (user.getUsername().length() < 3) {
-            throw new RuntimeException("用户名至少3个字符");
+            throw new RuntimeException("Username too short");
         }
         if (user.getUsername().length() > 50) {
-            throw new RuntimeException("用户名不能超过50个字符");
+            throw new RuntimeException("Username too long");
         }
 
         if (isNew) {
             if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
-                throw new RuntimeException("密码不能为空");
+                throw new RuntimeException("Password is empty");
             }
             if (user.getPassword().length() < 6) {
-                throw new RuntimeException("密码至少6个字符");
+                throw new RuntimeException("Password too short");
             }
         }
 
         // 验证邮箱格式
         if (user.getEmail() != null && !user.getEmail().isEmpty()) {
             if (!EMAIL_PATTERN.matcher(user.getEmail()).matches()) {
-                throw new RuntimeException("邮箱格式不正确");
+                throw new RuntimeException("Invalid email");
             }
         }
 
         // 验证手机号格式
         if (user.getPhone() != null && !user.getPhone().isEmpty()) {
             if (!PHONE_PATTERN.matcher(user.getPhone()).matches()) {
-                throw new RuntimeException("手机号格式不正确");
+                throw new RuntimeException("Invalid phone number");
             }
         }
 
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
         if (isNew) {
             User existing = userMapper.findByUsername(user.getUsername());
             if (existing != null) {
-                throw new RuntimeException("用户名已存在");
+                throw new RuntimeException("Username already exists");
             }
         }
     }
@@ -77,14 +77,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String username, String password) {
         if (username == null || password == null) {
-            throw new RuntimeException("用户名和密码不能为空");
+            throw new RuntimeException("Username or password is null");
         }
         User user = userMapper.findByUsernameAndPassword(username, password);
         if (user == null) {
-            throw new RuntimeException("用户名或密码错误");
+            throw new RuntimeException("User not found");
         }
         if (user.getStatus() != 1) {
-            throw new RuntimeException("账号已被禁用");
+            throw new RuntimeException("User is not active");
         }
         return user;
     }
@@ -99,17 +99,17 @@ public class UserServiceImpl implements UserService {
         if (result > 0) {
             return userMapper.findById(user.getId());
         }
-        throw new RuntimeException("注册失败");
+        throw new RuntimeException("User not found");
     }
 
     @Override
     public User getUserById(Integer id) {
         if (id == null) {
-            throw new RuntimeException("用户ID不能为空");
+            throw new RuntimeException("Id is null");
         }
         User user = userMapper.findById(id);
         if (user == null) {
-            throw new RuntimeException("用户不存在");
+            throw new RuntimeException("User not found");
         }
         return user;
     }
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUsername(String username) {
         if (username == null) {
-            throw new RuntimeException("用户名不能为空");
+            throw new RuntimeException("Username is null");
         }
         return userMapper.findByUsername(username);
     }
@@ -154,19 +154,19 @@ public class UserServiceImpl implements UserService {
         if (result > 0) {
             return userMapper.findById(user.getId());
         }
-        throw new RuntimeException("添加用户失败");
+        throw new RuntimeException("User not found");
     }
 
     @Override
     @Transactional
     public User updateUser(User user) {
         if (user.getId() == null) {
-            throw new RuntimeException("用户ID不能为空");
+            throw new RuntimeException("Userid is null");
         }
 
         User existing = userMapper.findById(user.getId());
         if (existing == null) {
-            throw new RuntimeException("用户不存在");
+            throw new RuntimeException("User not found");
         }
 
         // 更新允许修改的字段
@@ -178,29 +178,29 @@ public class UserServiceImpl implements UserService {
         if (result > 0) {
             return userMapper.findById(user.getId());
         }
-        throw new RuntimeException("更新用户失败");
+        throw new RuntimeException("User not found");
     }
 
     @Override
     @Transactional
     public boolean changePassword(Integer userId, String oldPassword, String newPassword) {
         if (userId == null) {
-            throw new RuntimeException("用户ID不能为空");
+            throw new RuntimeException("Userid is null");
         }
         if (oldPassword == null || newPassword == null) {
-            throw new RuntimeException("密码不能为空");
+            throw new RuntimeException("Old password is null");
         }
         if (newPassword.length() < 6) {
-            throw new RuntimeException("新密码至少6个字符");
+            throw new RuntimeException("New password too short");
         }
 
         User user = userMapper.findById(userId);
         if (user == null) {
-            throw new RuntimeException("用户不存在");
+            throw new RuntimeException("User not found");
         }
 
         if (!user.getPassword().equals(oldPassword)) {
-            throw new RuntimeException("原密码错误");
+            throw new RuntimeException("Old password does not match");
         }
 
         int result = userMapper.updatePassword(userId, newPassword);
@@ -211,17 +211,17 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public boolean deleteUser(Integer id) {
         if (id == null) {
-            throw new RuntimeException("用户ID不能为空");
+            throw new RuntimeException("Userid is null");
         }
 
         User user = userMapper.findById(id);
         if (user == null) {
-            throw new RuntimeException("用户不存在");
+            throw new RuntimeException("User not found");
         }
 
         // 不能删除管理员账号（可选）
         if ("admin".equals(user.getRole())) {
-            throw new RuntimeException("不能删除管理员账号");
+            throw new RuntimeException("Admin can not be deleted");
         }
 
         int result = userMapper.deleteById(id);

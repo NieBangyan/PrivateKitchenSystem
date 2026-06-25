@@ -11,9 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 菜谱控制器
- */
+
 @RestController
 @RequestMapping("/api/recipe")
 public class RecipeController {
@@ -28,7 +26,6 @@ public class RecipeController {
     private CategoryService categoryService;
 
     /**
-     * 多条件搜索菜谱
      * GET /api/recipe/search?title=xxx&categoryId=1&difficulty=easy&page=1&pageSize=10
      */
     @GetMapping("/search")
@@ -51,7 +48,7 @@ public class RecipeController {
             Map<String, Object> data = recipeService.searchRecipes(params);
             result.put("code", 200);
             result.put("data", data);
-            result.put("message", "查询成功");
+            result.put("message", "search completed");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -60,7 +57,6 @@ public class RecipeController {
     }
 
     /**
-     * 获取菜谱详情
      * GET /api/recipe/detail/{id}
      */
     @GetMapping("/detail/{id}")
@@ -70,7 +66,7 @@ public class RecipeController {
             Recipe recipe = recipeService.getRecipeDetail(id);
             result.put("code", 200);
             result.put("data", recipe);
-            result.put("message", "获取成功");
+            result.put("message", "get detail completed");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -79,7 +75,6 @@ public class RecipeController {
     }
 
     /**
-     * 获取第一个菜谱
      * GET /api/recipe/first
      */
     @GetMapping("/first")
@@ -89,7 +84,7 @@ public class RecipeController {
             Recipe recipe = recipeService.getFirstRecipe();
             result.put("code", 200);
             result.put("data", recipe);
-            result.put("message", "获取成功");
+            result.put("message", "get first completed");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -98,7 +93,6 @@ public class RecipeController {
     }
 
     /**
-     * 获取最后一个菜谱
      * GET /api/recipe/last
      */
     @GetMapping("/last")
@@ -108,7 +102,7 @@ public class RecipeController {
             Recipe recipe = recipeService.getLastRecipe();
             result.put("code", 200);
             result.put("data", recipe);
-            result.put("message", "获取成功");
+            result.put("message", "get last completed");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -117,7 +111,6 @@ public class RecipeController {
     }
 
     /**
-     * 获取上一个/下一个菜谱
      * GET /api/recipe/navigate?type=prev&currentId=5
      */
     @GetMapping("/navigate")
@@ -132,7 +125,7 @@ public class RecipeController {
             }
             result.put("code", 200);
             result.put("data", recipe);
-            result.put("message", "获取成功");
+            result.put("message", "get navigate completed");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -141,7 +134,6 @@ public class RecipeController {
     }
 
     /**
-     * 添加菜谱
      * POST /api/recipe/add
      */
     @PostMapping("/add")
@@ -151,7 +143,7 @@ public class RecipeController {
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) {
             result.put("code", 401);
-            result.put("message", "请先登录");
+            result.put("message", "please login first");
             return result;
         }
 
@@ -160,7 +152,7 @@ public class RecipeController {
             Recipe newRecipe = recipeService.addRecipe(recipe);
             result.put("code", 200);
             result.put("data", newRecipe);
-            result.put("message", "发布成功");
+            result.put("message", "post add completed");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -169,7 +161,6 @@ public class RecipeController {
     }
 
     /**
-     * 更新菜谱
      * PUT /api/recipe/update
      */
     @PutMapping("/update")
@@ -181,7 +172,7 @@ public class RecipeController {
 
         if (userId == null) {
             result.put("code", 401);
-            result.put("message", "请先登录");
+            result.put("message", "Please login first");
             return result;
         }
 
@@ -189,7 +180,7 @@ public class RecipeController {
             Recipe existing = recipeService.getRecipeById(recipe.getId());
             if (!existing.getAuthorId().equals(userId) && !"admin".equals(role)) {
                 result.put("code", 403);
-                result.put("message", "权限不足，只能修改自己的菜谱");
+                result.put("message", "No permission");
                 return result;
             }
 
@@ -197,7 +188,7 @@ public class RecipeController {
             Recipe updatedRecipe = recipeService.updateRecipe(recipe);
             result.put("code", 200);
             result.put("data", updatedRecipe);
-            result.put("message", "更新成功");
+            result.put("message", "update completed");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -206,7 +197,7 @@ public class RecipeController {
     }
 
     /**
-     * 删除菜谱
+
      * DELETE /api/recipe/delete/{id}
      */
     @DeleteMapping("/delete/{id}")
@@ -218,7 +209,7 @@ public class RecipeController {
 
         if (userId == null) {
             result.put("code", 401);
-            result.put("message", "请先登录");
+            result.put("message", "Please login first");
             return result;
         }
 
@@ -226,17 +217,17 @@ public class RecipeController {
             Recipe existing = recipeService.getRecipeById(id);
             if (!existing.getAuthorId().equals(userId) && !"admin".equals(role)) {
                 result.put("code", 403);
-                result.put("message", "权限不足，只能删除自己的菜谱");
+                result.put("message", "No permission");
                 return result;
             }
 
             boolean success = recipeService.deleteRecipe(id);
             if (success) {
                 result.put("code", 200);
-                result.put("message", "删除成功");
+                result.put("message", "delete completed");
             } else {
                 result.put("code", 500);
-                result.put("message", "删除失败");
+                result.put("message", "delete failed");
             }
         } catch (Exception e) {
             result.put("code", 500);
@@ -255,7 +246,7 @@ public class RecipeController {
         try {
             result.put("code", 200);
             result.put("data", recipeService.getHotRecipes(limit));
-            result.put("message", "获取成功");
+            result.put("message", "Get Success");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -273,7 +264,7 @@ public class RecipeController {
         try {
             result.put("code", 200);
             result.put("data", recipeService.getLatestRecipes(limit));
-            result.put("message", "获取成功");
+            result.put("message", "get latest recipes");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -292,10 +283,10 @@ public class RecipeController {
             boolean success = recipeService.likeRecipe(id);
             if (success) {
                 result.put("code", 200);
-                result.put("message", "点赞成功");
+                result.put("message", "like success");
             } else {
                 result.put("code", 500);
-                result.put("message", "点赞失败");
+                result.put("message", "like failed");
             }
         } catch (Exception e) {
             result.put("code", 500);
@@ -323,7 +314,7 @@ public class RecipeController {
 
             result.put("code", 200);
             result.put("data", data);
-            result.put("message", "获取成功");
+            result.put("message", "get stats");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -332,7 +323,6 @@ public class RecipeController {
     }
 
     /**
-     * 按难度统计
      * GET /api/recipe/stats/difficulty
      */
     @GetMapping("/stats/difficulty")
@@ -341,7 +331,7 @@ public class RecipeController {
         try {
             result.put("code", 200);
             result.put("data", recipeService.getStatsByDifficulty());
-            result.put("message", "获取成功");
+            result.put("message", "get stats by Difficulty");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());

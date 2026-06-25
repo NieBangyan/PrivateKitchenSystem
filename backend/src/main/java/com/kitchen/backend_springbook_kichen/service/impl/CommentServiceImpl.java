@@ -40,10 +40,10 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public Comment addComment(Comment comment) {
         if (comment.getContent() == null || comment.getContent().trim().isEmpty()) {
-            throw new RuntimeException("评论内容不能为空");
+            throw new RuntimeException("The comment content is empty");
         }
         if (comment.getContent().length() > 500) {
-            throw new RuntimeException("评论内容不能超过500字");
+            throw new RuntimeException("The comment content is too long");
         }
 
         comment.setLikeCount(0);
@@ -51,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
         if (result > 0) {
             return comment;
         }
-        throw new RuntimeException("评论失败");
+        throw new RuntimeException("Comment add failed");
     }
 
     @Override

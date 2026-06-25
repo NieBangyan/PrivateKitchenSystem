@@ -44,10 +44,10 @@ public class UserController {
                 user.setPassword(null);
                 result.put("code", 200);
                 result.put("data", user);
-                result.put("message", "登录成功");
+                result.put("message", "login success");
             } else {
                 result.put("code", 401);
-                result.put("message", "用户名或密码错误");
+                result.put("message", "Invalid username or password");
             }
         } catch (Exception e) {
             result.put("code", 500);
@@ -70,7 +70,7 @@ public class UserController {
             newUser.setPassword(null);
             result.put("code", 200);
             result.put("data", newUser);
-            result.put("message", "注册成功");
+            result.put("message", "register success");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -87,7 +87,7 @@ public class UserController {
         session.invalidate();
         Map<String, Object> result = new HashMap<>();
         result.put("code", 200);
-        result.put("message", "登出成功");
+        result.put("message", "Log successfully");
         return result;
     }
 
@@ -102,7 +102,7 @@ public class UserController {
 
         if (userId == null) {
             result.put("code", 401);
-            result.put("message", "未登录");
+            result.put("message", "Not logged in");
             return result;
         }
 
@@ -111,7 +111,7 @@ public class UserController {
             user.setPassword(null);
             result.put("code", 200);
             result.put("data", user);
-            result.put("message", "获取成功");
+            result.put("message", "Get Current User");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -130,7 +130,7 @@ public class UserController {
         String role = (String) session.getAttribute("role");
         if (!"admin".equals(role)) {
             result.put("code", 403);
-            result.put("message", "权限不足");
+            result.put("message", "No permission");
             return result;
         }
 
@@ -140,7 +140,7 @@ public class UserController {
             users.forEach(user -> user.setPassword(null));
             result.put("code", 200);
             result.put("data", users);
-            result.put("message", "获取成功");
+            result.put("message", "get user list");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -159,18 +159,18 @@ public class UserController {
         String role = (String) session.getAttribute("role");
         if (!"admin".equals(role)) {
             result.put("code", 403);
-            result.put("message", "权限不足");
+            result.put("message", "No permission");
             return result;
         }
 
         try {
-            // 默认密码123456，直接存储明文
+
             user.setPassword("123456");
             User newUser = userService.addUser(user);
             newUser.setPassword(null);
             result.put("code", 200);
             result.put("data", newUser);
-            result.put("message", "添加成功");
+            result.put("message", "add success ");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -189,7 +189,7 @@ public class UserController {
         String role = (String) session.getAttribute("role");
         if (!"admin".equals(role)) {
             result.put("code", 403);
-            result.put("message", "权限不足");
+            result.put("message", "No permission");
             return result;
         }
 
@@ -197,7 +197,7 @@ public class UserController {
         Integer currentUserId = (Integer) session.getAttribute("userId");
         if (currentUserId.equals(id)) {
             result.put("code", 400);
-            result.put("message", "不能删除当前登录账号");
+            result.put("message", "Can not delete user");
             return result;
         }
 
@@ -205,10 +205,10 @@ public class UserController {
             boolean success = userService.deleteUser(id);
             if (success) {
                 result.put("code", 200);
-                result.put("message", "删除成功");
+                result.put("message", "delete success");
             } else {
                 result.put("code", 500);
-                result.put("message", "删除失败");
+                result.put("message", "delete failed");
             }
         } catch (Exception e) {
             result.put("code", 500);
@@ -228,7 +228,7 @@ public class UserController {
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) {
             result.put("code", 401);
-            result.put("message", "请先登录");
+            result.put("message", "Please login");
             return result;
         }
 
@@ -240,10 +240,10 @@ public class UserController {
             boolean success = userService.changePassword(userId, oldPassword, newPassword);
             if (success) {
                 result.put("code", 200);
-                result.put("message", "密码修改成功");
+                result.put("message", "Modified password success");
             } else {
                 result.put("code", 500);
-                result.put("message", "密码修改失败");
+                result.put("message", "Modified password failed");
             }
         } catch (Exception e) {
             result.put("code", 500);
@@ -265,14 +265,14 @@ public class UserController {
 
         if (userId == null) {
             result.put("code", 401);
-            result.put("message", "请先登录");
+            result.put("message", "Please login");
             return result;
         }
 
         // 只能修改自己的信息，管理员可以修改任何用户
         if (!user.getId().equals(userId) && !"admin".equals(role)) {
             result.put("code", 403);
-            result.put("message", "权限不足");
+            result.put("message", "no permission");
             return result;
         }
 
@@ -281,7 +281,7 @@ public class UserController {
             updatedUser.setPassword(null);
             result.put("code", 200);
             result.put("data", updatedUser);
-            result.put("message", "更新成功");
+            result.put("message", "update success");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());
@@ -300,7 +300,7 @@ public class UserController {
         String role = (String) session.getAttribute("role");
         if (!"admin".equals(role)) {
             result.put("code", 403);
-            result.put("message", "权限不足");
+            result.put("message", "No permission");
             return result;
         }
 
@@ -310,7 +310,7 @@ public class UserController {
 
             result.put("code", 200);
             result.put("data", Map.of("total", count, "roleStats", roleStats));
-            result.put("message", "获取成功");
+            result.put("message", "get user stats success");
         } catch (Exception e) {
             result.put("code", 500);
             result.put("message", e.getMessage());

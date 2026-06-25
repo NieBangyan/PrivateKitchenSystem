@@ -247,11 +247,11 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional
     public boolean likeRecipe(Integer id) {
         if (id == null) {
-            throw new RuntimeException("菜谱ID不能为空");
+            throw new RuntimeException("Recipe ID can NOT be null");
         }
         Recipe recipe = recipeMapper.findById(id);
         if (recipe == null) {
-            throw new RuntimeException("菜谱不存在");
+            throw new RuntimeException("Recipe is not exist");
         }
         int result = recipeMapper.likeRecipe(id);
         return result > 0;

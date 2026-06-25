@@ -7,15 +7,15 @@ import java.util.Map;
 
 public interface CommentService {
 
-    // 获取菜谱评论
+    //get recipe comment
     Map<String, Object> getCommentsByRecipe(Integer recipeId, Integer page, Integer pageSize);
 
-    // 添加评论
+    // add comment
     Comment addComment(Comment comment);
 
-    // 删除评论
+    //delete comment
     boolean deleteComment(Integer id, Integer userId, String role);
 
-    // 点赞评论
+    // like comment
     boolean likeComment(Integer id);
 }
